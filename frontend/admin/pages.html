@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Pages | LHS Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/css/admin.css" rel="stylesheet">
+</head>
+<body>
+<div id="admin-toast-container"></div>
+<div class="admin-overlay" id="admin-overlay"></div>
+
+<div class="admin-wrapper">
+  <aside class="admin-sidebar" id="admin-sidebar">
+    <a href="dashboard.html" class="sidebar-brand">
+      <div class="logo-icon">LHS</div>
+      <span class="logo-text">L<span>H</span>S Admin</span>
+    </a>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">Main</div>
+      <div class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></div>
+      <div class="sidebar-section">Management</div>
+      <div class="nav-item"><a href="lawyers.html" class="nav-link"><i class="bi bi-people-fill"></i> Lawyers</a></div>
+      <div class="nav-item"><a href="practice-areas.html" class="nav-link"><i class="bi bi-journals"></i> Practice Areas</a></div>
+      <div class="nav-item"><a href="pages.html" class="nav-link active"><i class="bi bi-file-text"></i> Site Pages</a></div>
+      <div class="sidebar-section">System</div>
+      <div class="nav-item"><a href="../index.html" class="nav-link" target="_blank"><i class="bi bi-box-arrow-up-right"></i> View Site</a></div>
+      <div class="nav-item"><a href="#" class="nav-link" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Logout</a></div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="avatar" id="sidebar-user-initials">A</div>
+        <div class="user-info">
+          <div class="user-name" id="sidebar-user-name">Admin</div>
+          <div class="user-role" id="sidebar-user-role">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="d-flex align-items-center gap-3">
+        <button class="toggle-sidebar-btn" id="toggle-sidebar"><i class="bi bi-list"></i></button>
+        <span class="topbar-title">Site Pages</span>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <!-- Tab navigation -->
+      <ul class="nav nav-pills mb-4 animate-in" id="pages-tabs" style="background:#fff;border-radius:12px;padding:8px;border:1px solid #e2e8f0;display:inline-flex;gap:4px;">
+        <li class="nav-item">
+          <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tab-aboutus" type="button" style="border-radius:8px;font-size:0.88rem;font-weight:600;">
+            <i class="bi bi-info-circle me-2"></i>About Us
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-contact" type="button" style="border-radius:8px;font-size:0.88rem;font-weight:600;">
+            <i class="bi bi-envelope me-2"></i>Contact Page
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-terms" type="button" style="border-radius:8px;font-size:0.88rem;font-weight:600;">
+            <i class="bi bi-file-earmark-text me-2"></i>Terms
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" data-bs-toggle="pill" data-bs-target="#tab-privacy" type="button" style="border-radius:8px;font-size:0.88rem;font-weight:600;">
+            <i class="bi bi-shield-check me-2"></i>Privacy
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content animate-in" style="animation-delay:0.1s">
+
+        <!-- About Us -->
+        <div class="tab-pane fade show active" id="tab-aboutus">
+          <div class="admin-card">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-info-circle me-2" style="color:#c9a84c;"></i>About Us Page</h5>
+            </div>
+            <div class="card-body-custom">
+              <form class="admin-form" onsubmit="savePage('aboutus', event)">
+                <div class="row">
+                  <div class="col-md-8 mb-3">
+                    <label class="form-label">Page Title</label>
+                    <input type="text" id="aboutus-title" class="form-control" placeholder="About LHS">
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label class="form-label">Contact Email</label>
+                    <input type="email" id="aboutus-email" class="form-control" placeholder="info@lhs.in">
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label class="form-label">Page Description / Content</label>
+                    <textarea id="aboutus-desc" class="form-control" rows="8" placeholder="Tell visitors about your organization, mission, and values..."></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn-admin-gold px-5" style="border-radius:8px;">
+                  <i class="bi bi-floppy me-2"></i> Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="tab-pane fade" id="tab-contact">
+          <div class="admin-card">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-envelope me-2" style="color:#c9a84c;"></i>Contact Page</h5>
+            </div>
+            <div class="card-body-custom">
+              <form class="admin-form" onsubmit="savePage('contact', event)">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Page Title</label>
+                    <input type="text" id="contact-title" class="form-control" placeholder="Contact Us">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="contact-email" class="form-control" placeholder="contact@lhs.in">
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" id="contact-mobile" class="form-control" placeholder="9876543210">
+                  </div>
+                  <div class="col-12 mb-3">
+                    <label class="form-label">Description / Address</label>
+                    <textarea id="contact-desc" class="form-control" rows="6" placeholder="Office address, working hours, how to reach us..."></textarea>
+                  </div>
+                </div>
+                <button type="submit" class="btn-admin-gold px-5" style="border-radius:8px;">
+                  <i class="bi bi-floppy me-2"></i> Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <div class="tab-pane fade" id="tab-terms">
+          <div class="admin-card">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-file-earmark-text me-2" style="color:#c9a84c;"></i>Terms of Service</h5>
+            </div>
+            <div class="card-body-custom">
+              <form class="admin-form" onsubmit="savePage('terms', event)">
+                <div class="mb-3">
+                  <label class="form-label">Page Title</label>
+                  <input type="text" id="terms-title" class="form-control" placeholder="Terms of Service">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Content</label>
+                  <textarea id="terms-desc" class="form-control" rows="10" placeholder="Terms and conditions..."></textarea>
+                </div>
+                <button type="submit" class="btn-admin-gold px-5" style="border-radius:8px;">
+                  <i class="bi bi-floppy me-2"></i> Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy -->
+        <div class="tab-pane fade" id="tab-privacy">
+          <div class="admin-card">
+            <div class="card-header-custom">
+              <h5><i class="bi bi-shield-check me-2" style="color:#c9a84c;"></i>Privacy Policy</h5>
+            </div>
+            <div class="card-body-custom">
+              <form class="admin-form" onsubmit="savePage('privacy', event)">
+                <div class="mb-3">
+                  <label class="form-label">Page Title</label>
+                  <input type="text" id="privacy-title" class="form-control" placeholder="Privacy Policy">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Content</label>
+                  <textarea id="privacy-desc" class="form-control" rows="10" placeholder="Privacy policy content..."></textarea>
+                </div>
+                <button type="submit" class="btn-admin-gold px-5" style="border-radius:8px;">
+                  <i class="bi bi-floppy me-2"></i> Save Changes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/admin/auth.js"></script>
+<script src="../assets/js/admin/pages.js"></script>
+</body>
+</html>

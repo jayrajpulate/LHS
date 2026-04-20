@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | LHS</title>
+  <meta name="description" content="LHS Admin Panel Login">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/css/admin.css" rel="stylesheet">
+  <style>
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%,60%{ transform: translateX(-8px); }
+      40%,80%{ transform: translateX(8px); }
+    }
+    .shake { animation: shake 0.5s ease; }
+    .login-particles { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
+    .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(201,168,76,0.3); animation: float linear infinite; }
+    @keyframes float { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-100px);opacity:0} }
+  </style>
+</head>
+<body class="login-page">
+
+<!-- Animated particles -->
+<div class="login-particles" id="login-particles"></div>
+
+<div id="admin-toast-container"></div>
+
+<div class="login-card" style="position:relative;z-index:1;">
+  <div class="text-center mb-4">
+    <div class="login-logo">L<span>H</span>S</div>
+    <div style="font-size:0.85rem;color:#6c757d;margin-top:4px;">Admin Control Panel</div>
+  </div>
+
+  <div id="login-error" class="text-danger text-center mb-3" style="font-size:0.88rem;min-height:20px;"></div>
+
+  <form id="login-form" novalidate>
+    <div class="mb-4">
+      <label class="form-label" style="font-size:0.8rem;font-weight:700;color:#6c757d;letter-spacing:0.5px;text-transform:uppercase;">Username</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#f0f4f8;border-right:none;border-radius:8px 0 0 8px;">
+          <i class="bi bi-person" style="color:#6c757d;"></i>
+        </span>
+        <input type="text" id="username" name="username" class="form-control"
+          style="border-left:none;border-radius:0 8px 8px 0;background:#f0f4f8;padding:12px 16px;"
+          placeholder="Enter username" required autocomplete="username">
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label" style="font-size:0.8rem;font-weight:700;color:#6c757d;letter-spacing:0.5px;text-transform:uppercase;">Password</label>
+      <div class="input-group">
+        <span class="input-group-text" style="background:#f0f4f8;border-right:none;border-radius:8px 0 0 8px;">
+          <i class="bi bi-lock" style="color:#6c757d;"></i>
+        </span>
+        <input type="password" id="password" name="password" class="form-control"
+          style="border-left:none;border-right:none;background:#f0f4f8;padding:12px 16px;"
+          placeholder="Enter password" required autocomplete="current-password">
+        <button type="button" id="toggle-password" class="input-group-text" style="background:#f0f4f8;border-left:none;border-radius:0 8px 8px 0;cursor:pointer;">
+          <i class="bi bi-eye" style="color:#6c757d;"></i>
+        </button>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-admin-gold w-100 py-3" style="border-radius:10px;font-size:1rem;">
+      Sign In
+    </button>
+  </form>
+
+  <div class="text-center mt-4" style="font-size:0.82rem;color:#6c757d;">
+    <p class="mb-1">First time? <a href="#" onclick="showRegisterTab()" style="color:#c9a84c;font-weight:600;">Create Admin Account</a></p>
+    <a href="../index.html" style="color:#6c757d;">← Back to Site</a>
+  </div>
+
+  <!-- Bootstrap Register Tab (shown only when no admin exists) -->
+  <div id="register-section" style="display:none;margin-top:24px;padding-top:24px;border-top:1px solid #e2e8f0;">
+    <p class="text-center" style="font-size:0.82rem;color:#6c757d;margin-bottom:16px;">
+      <span style="background:rgba(201,168,76,0.1);color:#c9a84c;padding:4px 10px;border-radius:6px;font-weight:700;font-size:0.75rem;">FIRST RUN ONLY</span><br>
+      This will fail if an admin already exists.
+    </p>
+    <form id="register-form" novalidate>
+      <input type="text" id="reg-name" class="form-control mb-3" placeholder="Full Name" style="border-radius:8px;padding:12px 16px;" required>
+      <input type="text" id="reg-username" class="form-control mb-3" placeholder="Username" style="border-radius:8px;padding:12px 16px;" required>
+      <input type="email" id="reg-email" class="form-control mb-3" placeholder="Email" style="border-radius:8px;padding:12px 16px;">
+      <input type="password" id="reg-password" class="form-control mb-3" placeholder="Password" style="border-radius:8px;padding:12px 16px;" required>
+      <button type="submit" class="btn-admin-primary w-100 py-2" style="border-radius:10px;">Create Admin Account</button>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/admin/auth.js"></script>
+<script>
+// Particles
+(function() {
+  const container = document.getElementById('login-particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;animation-duration:${6+Math.random()*10}s;animation-delay:${Math.random()*10}s;width:${2+Math.random()*4}px;height:${2+Math.random()*4}px;opacity:${0.1+Math.random()*0.3};`;
+    container.appendChild(p);
+  }
+})();
+
+function showRegisterTab() {
+  const sec = document.getElementById('register-section');
+  sec.style.display = sec.style.display === 'none' ? 'block' : 'none';
+}
+
+// Register form
+document.getElementById('register-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = e.target.querySelector('[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Creating...';
+  try {
+    const data = await api.post('/auth/register', {
+      AdminName:     document.getElementById('reg-name').value,
+      AdminuserName: document.getElementById('reg-username').value,
+      Email:         document.getElementById('reg-email').value || null,
+      Password:      document.getElementById('reg-password').value,
+      UserType: 1,
+    });
+    showToast(`Admin "${data.AdminName}" created! Please login.`, 'success');
+    document.getElementById('register-section').style.display = 'none';
+    document.getElementById('username').value = document.getElementById('reg-username').value;
+    document.getElementById('reg-name').value = '';
+    document.getElementById('reg-username').value = '';
+    document.getElementById('reg-email').value = '';
+    document.getElementById('reg-password').value = '';
+  } catch (err) {
+    showToast(err.message, 'error');
+    btn.disabled = false;
+    btn.textContent = 'Create Admin Account';
+  }
+});
+
+initLoginPage();
+</script>
+</body>
+</html>

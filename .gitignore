@@ -1,0 +1,39 @@
+# ── Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[oc]
+*.pyd
+build/
+dist/
+wheels/
+*.egg-info/
+
+# ── Virtual Environments ─────────────────────────────────────────────
+.venv/
+
+# ── Environment / Secrets (NEVER commit these) ───────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── UV ───────────────────────────────────────────────────────────────
+# uv.lock should be committed for reproducible installs.
+# Only ignore it if this is a library (not an app).
+# uv.lock
+
+# ── Uploads (user content) ───────────────────────────────────────────
+backend/static/uploads/*
+!backend/static/uploads/.gitkeep
+
+# ── Alembic ──────────────────────────────────────────────────────────
+# Keep alembic versions tracked
+# alembic/versions/
+
+# ── IDEs ──────────────────────────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+
+# ── OS ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini

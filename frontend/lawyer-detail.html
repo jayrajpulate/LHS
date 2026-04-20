@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lawyer Profile | LHS</title>
+  <meta name="description" content="View full lawyer profile including practice areas, experience, courts, and contact details.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
+  <style>
+    .profile-hero { background: linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 100%); padding: 110px 0 60px; }
+    .profile-avatar { width: 140px; height: 140px; object-fit: cover; border-radius: 16px; border: 4px solid rgba(201,168,76,0.6); }
+    .profile-avatar-placeholder { width:140px;height:140px;border-radius:16px;background:linear-gradient(135deg,#1a3a5c,#2563a8);border:4px solid rgba(201,168,76,0.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:3.5rem;font-weight:900;font-family:'Inter',sans-serif; }
+    .info-card { background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(13,27,42,0.08);border:1px solid #e9ecef;margin-bottom:20px; }
+    .info-row { display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #f0f4f8; }
+    .info-row:last-child { border-bottom:none; }
+    .info-label { width:140px;flex-shrink:0;font-size:0.82rem;font-weight:700;color:#6c757d;text-transform:uppercase;letter-spacing:0.5px;padding-top:2px; }
+    .info-value { flex:1;color:#1e2d3d;font-size:0.95rem; }
+    .area-pill { display:inline-block;background:rgba(26,58,92,0.08);color:#1a3a5c;font-size:0.8rem;font-weight:600;padding:5px 14px;border-radius:100px;margin:3px;border:1px solid rgba(26,58,92,0.15); }
+  </style>
+</head>
+<body>
+<div id="page-loader"><div class="loader-ring"></div><div class="loader-text">LHS</div></div>
+<div id="toast-container"></div>
+
+<nav class="lhs-navbar navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">L<span>H</span>S</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="lawyers.html">Find Lawyers</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+      </ul>
+      <a href="admin/login.html" class="nav-link btn-nav">Admin Panel</a>
+    </div>
+  </div>
+</nav>
+
+<div class="profile-hero" id="profile-hero">
+  <div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb" style="background:none;padding:0;">
+        <li class="breadcrumb-item"><a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a></li>
+        <li class="breadcrumb-item"><a href="lawyers.html" style="color:rgba(255,255,255,0.6)">Find Lawyers</a></li>
+        <li class="breadcrumb-item active" style="color:rgba(255,255,255,0.9)" id="breadcrumb-name">Profile</li>
+      </ol>
+    </nav>
+    <div class="d-flex gap-4 align-items-center flex-wrap">
+      <div id="profile-avatar-wrap"></div>
+      <div>
+        <h1 id="profile-name" style="color:#fff;font-family:'Playfair Display',serif;font-size:2.2rem;margin-bottom:6px;">Loading...</h1>
+        <div id="profile-areas" class="mb-3"></div>
+        <div class="d-flex gap-3 flex-wrap" id="profile-meta" style="color:rgba(255,255,255,0.7);font-size:0.9rem;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+  <div class="row" id="profile-content">
+    <div class="col-12 text-center py-5"><div class="loader-ring mx-auto" style="border-top-color:#1a3a5c;"></div></div>
+  </div>
+</div>
+
+<!-- Footer simplified -->
+<footer class="lhs-footer">
+  <div class="container">
+    <div class="footer-bottom d-flex justify-content-between flex-wrap gap-2">
+      <p class="mb-0">© 2024 LHS — Lawyer Hiring System</p>
+      <a href="lawyers.html" style="color:rgba(255,255,255,0.6)">← Back to all lawyers</a>
+    </div>
+  </div>
+</footer>
+
+<button id="back-to-top"><i class="bi bi-chevron-up"></i></button>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/api.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  initNavbarScroll();
+  initBackToTop();
+  const id = new URLSearchParams(window.location.search).get('id');
+  if (!id) { window.location.href = 'lawyers.html'; return; }
+  try {
+    const lawyer = await api.get(`/lawyers/${id}`);
+    renderProfile(lawyer);
+  } catch (err) {
+    document.getElementById('profile-content').innerHTML = `<div class="col-12 text-center py-5"><h4 class="text-danger">Lawyer not found</h4><a href="lawyers.html" class="btn btn-primary-lhs mt-3">Back to Lawyers</a></div>`;
+  }
+  hideLoader();
+});
+
+function renderProfile(l) {
+  document.title = `${l.LawyerName} | LHS`;
+  document.getElementById('profile-name').textContent = l.LawyerName;
+  document.getElementById('breadcrumb-name').textContent = l.LawyerName;
+
+  const imgUrl = getLawyerImageUrl(l.ProfilePic);
+  document.getElementById('profile-avatar-wrap').innerHTML = imgUrl
+    ? `<img src="${imgUrl}" class="profile-avatar" alt="${l.LawyerName}">`
+    : `<div class="profile-avatar-placeholder">${getInitials(l.LawyerName)}</div>`;
+
+  const areas = (l.PracticeAreas || '').split(',').filter(Boolean);
+  document.getElementById('profile-areas').innerHTML = areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('');
+
+  const meta = [];
+  if (l.City || l.State) meta.push(`<span><i class="bi bi-geo-alt-fill me-1"></i>${[l.City, l.State].filter(Boolean).join(', ')}</span>`);
+  if (l.LawyerExp) meta.push(`<span><i class="bi bi-briefcase-fill me-1"></i>${l.LawyerExp}+ years</span>`);
+  if (l.LanguagesKnown) meta.push(`<span><i class="bi bi-translate me-1"></i>${l.LanguagesKnown}</span>`);
+  document.getElementById('profile-meta').innerHTML = meta.join('');
+
+  document.getElementById('profile-content').innerHTML = `
+    <div class="col-lg-8 reveal-left">
+      ${l.Description ? `<div class="info-card"><h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">About</h4><p style="color:#4a5568;line-height:1.8;">${l.Description}</p></div>` : ''}
+      <div class="info-card">
+        <h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Profile Details</h4>
+        ${row('Name', l.LawyerName)}
+        ${l.LawyerExp ? row('Experience', `${l.LawyerExp}+ years`) : ''}
+        ${l.PracticeAreas ? row('Practice Areas', areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('')) : ''}
+        ${l.Courts ? row('Courts', l.Courts) : ''}
+        ${l.LanguagesKnown ? row('Languages', l.LanguagesKnown) : ''}
+        ${l.OfficeAddress ? row('Office', l.OfficeAddress) : ''}
+        ${(l.City || l.State) ? row('Location', [l.City, l.State].filter(Boolean).join(', ')) : ''}
+        ${l.Website ? row('Website', `<a href="${l.Website}" target="_blank" rel="noopener">${l.Website}</a>`) : ''}
+      </div>
+    </div>
+    <div class="col-lg-4 reveal-right">
+      <div class="info-card" style="position:sticky;top:90px;">
+        <h5 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Contact</h5>
+        ${l.LawyerMobileNo ? `<a href="tel:${l.LawyerMobileNo}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;"><i class="bi bi-telephone-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Phone</div><div class="fw-semibold">${l.LawyerMobileNo}</div></div></a>` : ''}
+        ${l.LawyerEmail ? `<a href="mailto:${l.LawyerEmail}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;"><i class="bi bi-envelope-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Email</div><div class="fw-semibold" style="font-size:0.9rem;">${l.LawyerEmail}</div></div></a>` : ''}
+        ${l.OfficeAddress ? `<div class="d-flex align-items-start gap-3 mb-4" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;margin-top:2px;"><i class="bi bi-geo-alt-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Office</div><div style="font-size:0.9rem;">${l.OfficeAddress}</div></div></div>` : ''}
+        <a href="lawyers.html" class="btn btn-primary-lhs w-100 mb-2"><i class="bi bi-arrow-left me-2"></i>Back to Lawyers</a>
+      </div>
+    </div>`;
+
+  initRevealAnimations();
+}
+
+function row(label, val) {
+  return `<div class="info-row"><div class="info-label">${label}</div><div class="info-value">${val}</div></div>`;
+}
+</script>
+</body>
+</html>

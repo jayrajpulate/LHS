@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Query, status
 from sqlalchemy.orm import Session
-from sqlalchemy import or_
-from typing import List, Optional
+from typing import Optional, List
+from pydantic import EmailStr
 from pathlib import Path
 import shutil
 import uuid
@@ -17,6 +17,10 @@ router = APIRouter()
 
 UPLOAD_DIR = Path(settings.UPLOAD_DIR)
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+import datetime
+
+# In-Memory Storage for Drafts
+PENDING_LAWYERS: List[dict] = []
 
 
 def _save_upload(file: UploadFile) -> str:
@@ -158,6 +162,23 @@ def create_lawyer(
     return db_lawyer
 
 
+@router.get(
+    "/admin/{lawyer_id}",
+    response_model=LawyerResponse,
+    summary="[Admin] Get ANY lawyer details",
+)
+def admin_get_lawyer(
+    lawyer_id: int,
+    db: Session = Depends(deps.get_db),
+    _: Admin = Depends(deps.get_current_user),
+):
+    """Fetch details of any lawyer by ID. Requires admin authentication."""
+    lawyer = db.query(Lawyer).filter(Lawyer.id == lawyer_id).first()
+    if not lawyer:
+        raise HTTPException(status_code=404, detail="Lawyer not found")
+    return lawyer
+
+
 @router.put("/admin/{lawyer_id}", response_model=LawyerResponse, summary="[Admin] Update lawyer")
 def update_lawyer(
     lawyer_id: int,
@@ -197,9 +218,16 @@ def update_lawyer(
         "Description": Description,
         "IsPublic": IsPublic,
     }
+    
     for field, value in update_data.items():
+        # Only update if the value is provided and not an empty string (for strings)
+        # unless we specifically want to allow clearing fields.
         if value is not None:
-            setattr(lawyer, field, value)
+             # For string fields, check if it's white-space only or empty
+            if isinstance(value, str) and not value.strip():
+                setattr(lawyer, field, None)
+            else:
+                setattr(lawyer, field, value)
 
     if profile_pic and profile_pic.filename:
         # Remove old picture
@@ -253,3 +281,104 @@ def delete_lawyer(
     db.delete(lawyer)
     db.commit()
     return {"message": "Lawyer deleted successfully"}
+
+
+# ─── Draft (In-Memory) Endpoints ──────────────────────────────────────────────
+
+@router.post(
+    "/admin/draft",
+    summary="[Admin] Add a lawyer to in-memory drafts",
+)
+def add_draft_lawyer(
+    LawyerName: str = Form(...),
+    LawyerEmail: Optional[EmailStr] = Form(None),
+    LawyerMobileNo: Optional[int] = Form(None),
+    OfficeAddress: Optional[str] = Form(None),
+    City: Optional[str] = Form(None),
+    State: Optional[str] = Form(None),
+    LanguagesKnown: Optional[str] = Form(None),
+    LawyerExp: Optional[int] = Form(None),
+    PracticeAreas: Optional[str] = Form(None),
+    Courts: Optional[str] = Form(None),
+    Website: Optional[str] = Form(None),
+    Description: Optional[str] = Form(None),
+    IsPublic: int = Form(0),
+    profile_pic: Optional[UploadFile] = File(None),
+    current_admin: Admin = Depends(deps.get_current_user),
+):
+    """Adds a lawyer to the temporary in-memory list after validation."""
+    file_name = None
+    if profile_pic and profile_pic.filename:
+        file_name = _save_upload(profile_pic)
+
+    draft = {
+        "LawyerName": LawyerName,
+        "LawyerEmail": LawyerEmail,
+        "LawyerMobileNo": LawyerMobileNo,
+        "OfficeAddress": OfficeAddress,
+        "City": City,
+        "State": State,
+        "LanguagesKnown": LanguagesKnown,
+        "LawyerExp": LawyerExp,
+        "PracticeAreas": PracticeAreas,
+        "Courts": Courts,
+        "Website": Website,
+        "Description": Description,
+        "IsPublic": IsPublic,
+        "ProfilePic": file_name,
+        "AddedBy": current_admin.AdminuserName,
+        "RegDate": datetime.datetime.now().isoformat()
+    }
+    PENDING_LAWYERS.append(draft)
+    return {"message": "Lawyer added to drafts", "index": len(PENDING_LAWYERS) - 1, "draft": draft}
+
+
+@router.get(
+    "/admin/draft/all",
+    summary="[Admin] List all in-memory drafts",
+)
+def list_draft_lawyers(_: Admin = Depends(deps.get_current_user)):
+    return PENDING_LAWYERS
+
+
+@router.delete(
+    "/admin/draft/{index}",
+    summary="[Admin] Delete a draft from in-memory",
+)
+def delete_draft_lawyer(index: int, _: Admin = Depends(deps.get_current_user)):
+    if 0 <= index < len(PENDING_LAWYERS):
+        removed = PENDING_LAWYERS.pop(index)
+        return {"message": "Draft removed", "removed": removed}
+    raise HTTPException(status_code=404, detail="Draft index not found")
+
+
+@router.post(
+    "/admin/draft/commit",
+    summary="[Admin] Commit all drafts to the database",
+)
+def commit_draft_lawyers(
+    db: Session = Depends(deps.get_db),
+    _: Admin = Depends(deps.get_current_user),
+):
+    """Saves all in-memory drafts to the SQL database."""
+    if not PENDING_LAWYERS:
+        return {"message": "No drafts to commit"}
+
+    added_count = 0
+    try:
+        for draft in PENDING_LAWYERS:
+            # Create actual Lawyer model instance
+            # We remove RegDate from dict as it's auto-generated or we can keep it if we want
+            data = draft.copy()
+            data.pop("RegDate", None) 
+            
+            db_lawyer = Lawyer(**data)
+            db.add(db_lawyer)
+            added_count += 1
+        
+        db.commit()
+        PENDING_LAWYERS.clear()
+        return {"message": f"Successfully committed {added_count} lawyers to the database"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Failed to commit drafts: {str(e)}")

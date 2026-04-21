@@ -10,11 +10,8 @@ from fastapi.responses import JSONResponse
 from app.api.api import api_router
 from app.core.config import settings
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
-)
-logger = logging.getLogger(__name__)
+from app.core.logger import logger
+
 
 
 @asynccontextmanager
@@ -41,8 +38,8 @@ app = FastAPI(
 # ── CORS ─────────────────────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins_list,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )

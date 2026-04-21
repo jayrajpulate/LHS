@@ -17,7 +17,7 @@
     }
     .shake { animation: shake 0.5s ease; }
     .login-particles { position: fixed; inset: 0; overflow: hidden; pointer-events: none; }
-    .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(201,168,76,0.3); animation: float linear infinite; }
+    .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: rgba(189,140,125,0.3); animation: float linear infinite; }
     @keyframes float { 0%{transform:translateY(100vh);opacity:0} 10%{opacity:1} 90%{opacity:1} 100%{transform:translateY(-100px);opacity:0} }
   </style>
 </head>
@@ -28,56 +28,50 @@
 
 <div id="admin-toast-container"></div>
 
-<div class="login-card" style="position:relative;z-index:1;">
-  <div class="text-center mb-4">
+<div class="login-card">
+  <div class="text-center mb-5">
     <div class="login-logo">L<span>H</span>S</div>
-    <div style="font-size:0.85rem;color:#6c757d;margin-top:4px;">Admin Control Panel</div>
+    <div style="font-size:0.8rem;color:var(--admin-muted);font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:0.8;">Admin Control Panel</div>
   </div>
 
   <div id="login-error" class="text-danger text-center mb-3" style="font-size:0.88rem;min-height:20px;"></div>
 
   <form id="login-form" novalidate>
     <div class="mb-4">
-      <label class="form-label" style="font-size:0.8rem;font-weight:700;color:#6c757d;letter-spacing:0.5px;text-transform:uppercase;">Username</label>
+      <label class="form-label">Username</label>
       <div class="input-group">
-        <span class="input-group-text" style="background:#f0f4f8;border-right:none;border-radius:8px 0 0 8px;">
-          <i class="bi bi-person" style="color:#6c757d;"></i>
-        </span>
+        <span class="input-group-text"><i class="bi bi-person"></i></span>
         <input type="text" id="username" name="username" class="form-control"
-          style="border-left:none;border-radius:0 8px 8px 0;background:#f0f4f8;padding:12px 16px;"
           placeholder="Enter username" required autocomplete="username">
       </div>
     </div>
 
     <div class="mb-4">
-      <label class="form-label" style="font-size:0.8rem;font-weight:700;color:#6c757d;letter-spacing:0.5px;text-transform:uppercase;">Password</label>
+      <label class="form-label">Password</label>
       <div class="input-group">
-        <span class="input-group-text" style="background:#f0f4f8;border-right:none;border-radius:8px 0 0 8px;">
-          <i class="bi bi-lock" style="color:#6c757d;"></i>
-        </span>
+        <span class="input-group-text"><i class="bi bi-lock"></i></span>
         <input type="password" id="password" name="password" class="form-control"
-          style="border-left:none;border-right:none;background:#f0f4f8;padding:12px 16px;"
-          placeholder="Enter password" required autocomplete="current-password">
-        <button type="button" id="toggle-password" class="input-group-text" style="background:#f0f4f8;border-left:none;border-radius:0 8px 8px 0;cursor:pointer;">
-          <i class="bi bi-eye" style="color:#6c757d;"></i>
+          placeholder="Enter password" required autocomplete="current-password" style="border-radius:0 !important;">
+        <button type="button" id="toggle-password" class="input-group-text" style="border-radius:0 12px 12px 0 !important; cursor:pointer;">
+          <i class="bi bi-eye"></i>
         </button>
       </div>
     </div>
 
-    <button type="submit" class="btn-admin-gold w-100 py-3" style="border-radius:10px;font-size:1rem;">
+    <button type="submit" class="btn btn-admin-gold w-100 py-3 fw-bold">
       Sign In
     </button>
   </form>
 
   <div class="text-center mt-4" style="font-size:0.82rem;color:#6c757d;">
-    <p class="mb-1">First time? <a href="#" onclick="showRegisterTab()" style="color:#c9a84c;font-weight:600;">Create Admin Account</a></p>
+    <p class="mb-1">First time? <a href="#" onclick="showRegisterTab()" style="color:#bd8c7d;font-weight:600;">Create Admin Account</a></p>
     <a href="../index.html" style="color:#6c757d;">← Back to Site</a>
   </div>
 
   <!-- Bootstrap Register Tab (shown only when no admin exists) -->
   <div id="register-section" style="display:none;margin-top:24px;padding-top:24px;border-top:1px solid #e2e8f0;">
     <p class="text-center" style="font-size:0.82rem;color:#6c757d;margin-bottom:16px;">
-      <span style="background:rgba(201,168,76,0.1);color:#c9a84c;padding:4px 10px;border-radius:6px;font-weight:700;font-size:0.75rem;">FIRST RUN ONLY</span><br>
+      <span style="background:rgba(189,140,125,0.1);color:#bd8c7d;padding:4px 10px;border-radius:6px;font-weight:700;font-size:0.75rem;">FIRST RUN ONLY</span><br>
       This will fail if an admin already exists.
     </p>
     <form id="register-form" novalidate>

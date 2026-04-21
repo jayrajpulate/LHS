@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Text, BigInteger, DateTime
-from sqlalchemy.sql import func
 from app.db.session import Base
+from app.core.timezone import get_ist_now
 
 class Page(Base):
     __tablename__ = "tblpage"
@@ -10,4 +10,4 @@ class Page(Base):
     PageDescription = Column(Text)
     Email = Column(String(200), nullable=True)
     MobileNumber = Column(BigInteger, nullable=True)
-    UpdationDate = Column(DateTime, default=func.now(), onupdate=func.now())
+    UpdationDate = Column(DateTime, default=get_ist_now, onupdate=get_ist_now)

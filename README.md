@@ -13,22 +13,57 @@ A production-ready full-stack web application for hiring lawyers across India.
 
 ```
 LHS/
-├── backend/              # FastAPI application
+├── backend/                        # FastAPI application
 │   ├── app/
-│   │   ├── api/          # Routes & dependencies
-│   │   ├── core/         # Config & security
-│   │   ├── db/           # Database session
-│   │   ├── models/       # SQLAlchemy models
-│   │   └── schemas/      # Pydantic schemas
-│   ├── alembic/          # Database migrations (after uv run alembic init)
-│   ├── static/uploads/   # Uploaded profile pictures
-│   ├── .venv/            # UV-managed virtual environment (auto-created)
-│   ├── uv.lock           # UV lockfile
-│   ├── pyproject.toml    # Project config + dependencies
-│   └── .env              # Environment variables
+│   │   ├── __init__.py
+│   │   ├── main.py                 # FastAPI entry point
+│   │   ├── api/
+│   │   │   ├── __init__.py
+│   │   │   ├── api.py              # Root API router
+│   │   │   ├── deps.py             # Shared dependencies (auth, DB session)
+│   │   │   └── endpoints/
+│   │   │       ├── __init__.py
+│   │   │       ├── admin.py        # Admin CRUD
+│   │   │       ├── auth.py         # Login, register, change password
+│   │   │       ├── lawyers.py      # Lawyer CRUD + public listing
+│   │   │       ├── pages.py        # CMS pages
+│   │   │       └── practice_areas.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   ├── config.py           # Pydantic settings (.env loader)
+│   │   │   └── security.py         # JWT & password hashing
+│   │   ├── db/
+│   │   │   ├── __init__.py
+│   │   │   └── session.py          # SQLAlchemy engine & session
+│   │   ├── models/                 # SQLAlchemy ORM models
+│   │   │   ├── __init__.py
+│   │   │   ├── admin.py
+│   │   │   ├── lawyer.py
+│   │   │   ├── page.py
+│   │   │   └── practice_area.py
+│   │   └── schemas/                # Pydantic request/response schemas
+│   │       ├── __init__.py
+│   │       ├── admin.py
+│   │       ├── auth.py
+│   │       ├── lawyer.py
+│   │       ├── page.py
+│   │       └── practice_area.py
+│   ├── alembic/                    # Database migrations
+│   │   ├── env.py
+│   │   ├── script.py.mako
+│   │   └── versions/
+│   ├── static/uploads/             # Uploaded profile pictures
+│   ├── .venv/                      # UV-managed virtual environment
+│   ├── alembic.ini
+│   ├── schema.sql                  # Reference SQL schema
+│   ├── pyproject.toml              # Project config + dependencies
+│   ├── uv.lock                     # UV lockfile
+│   └── .env                        # Environment variables
 │
-└── frontend/             # Static HTML/JS frontend
+└── frontend/                       # Static HTML/JS frontend
     ├── index.html
+    ├── about.html
+    ├── contact.html
     ├── lawyers.html
     ├── lawyer-detail.html
     ├── admin/
@@ -39,7 +74,18 @@ LHS/
     │   └── pages.html
     └── assets/
         ├── css/
+        │   ├── style.css           # Public site styles
+        │   └── admin.css           # Admin panel styles
         └── js/
+            ├── api.js              # API client helper
+            ├── main.js             # Public site logic
+            ├── lawyers.js          # Lawyer listing logic
+            └── admin/
+                ├── auth.js
+                ├── dashboard.js
+                ├── lawyers.js
+                ├── pages.js
+                └── practice-areas.js
 ```
 
 ---

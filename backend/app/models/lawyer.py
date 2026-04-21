@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, BigInteger, Text, DateTime
-from sqlalchemy.sql import func
 from app.db.session import Base
+from app.core.timezone import get_ist_now
 
 class Lawyer(Base):
     __tablename__ = "tbllawyers"
@@ -18,6 +18,6 @@ class Lawyer(Base):
     Courts = Column(Text)
     Website = Column(String(150))
     Description = Column(Text)
-    RegDate = Column(DateTime, default=func.now())
+    RegDate = Column(DateTime, default=get_ist_now)
     IsPublic = Column(Integer, default=0)
     AddedBy = Column(String(120))

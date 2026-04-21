@@ -1,313 +1,348 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LHS | Trusted Lawyer Hiring System in India</title>
-  <meta name="description" content="Find and hire verified lawyers and advocates across India. Search by practice area, city, and expertise. LHS — Legal Help Made Easy.">
+  <meta name="description"
+    content="Find and hire verified lawyers and advocates across India. Search by practice area, city, and expertise. LHS — Legal Help Made Easy.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap"
+    rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/animations.css" rel="stylesheet">
 </head>
-<body>
 
-<!-- Page Loader -->
-<div id="page-loader">
-  <div class="loader-ring"></div>
-  <div class="loader-text">LHS</div>
-</div>
+<body data-barba="wrapper">
 
-<!-- Toast Container -->
-<div id="toast-container"></div>
-
-<!-- ── Navbar ── -->
-<nav class="lhs-navbar navbar navbar-expand-lg fixed-top" id="mainNavbar">
-  <div class="container">
-    <a class="navbar-brand" href="index.html">L<span>H</span>S</a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav mx-auto gap-1">
-        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="lawyers.html">Find Lawyers</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-      </ul>
-      <a href="admin/login.html" class="nav-link btn-nav">Admin Panel</a>
+  <!-- Page Loader -->
+  <div id="page-loader">
+    <div class="loader-content">
+      <div class="loader-logo-wrap">
+        <span class="loader-char">L</span>
+        <span class="loader-char">H</span>
+        <span class="loader-char">S</span>
+      </div>
+      <div class="loader-progress">
+        <div class="loader-bar"></div>
+      </div>
     </div>
   </div>
-</nav>
 
-<!-- ── Hero Section ── -->
-<section class="hero" id="home">
-  <canvas id="hero-canvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
-  <div class="container position-relative">
-    <div class="row align-items-center min-vh-100">
-      <div class="col-lg-7">
-        <div class="hero-badge">🇮🇳 India's Trusted Legal Network</div>
-        <h1>
-          Find the Right <span class="highlight">Lawyer</span><br>
-          for Your Case
-        </h1>
-        <p class="lead">
-          Connect with verified advocates and legal experts across India. Search by practice area, city, or expertise — get the legal help you deserve.
-        </p>
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
 
-        <!-- Search bar -->
-        <form id="hero-search-form" class="hero-actions flex-column flex-sm-row align-items-start">
-          <div class="search-hero flex-grow-1 w-100 w-sm-auto mb-3 mb-sm-0">
-            <i class="bi bi-search" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
-            <input
-              type="text"
-              id="hero-search-input"
-              placeholder="Search by lawyer name..."
-              style="padding-left:40px;"
-              autocomplete="off"
-            >
-            <button type="submit" class="btn btn-gold px-4">Search</button>
-          </div>
-        </form>
-
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <h3 id="stat-lawyers">0</h3>
-            <p>Verified Lawyers</p>
-          </div>
-          <div class="hero-stat">
-            <h3 id="stat-areas">0</h3>
-            <p>Practice Areas</p>
-          </div>
-          <div class="hero-stat">
-            <h3 id="stat-cities">0</h3>
-            <p>Cities Covered</p>
-          </div>
-          <div class="hero-stat">
-            <h3 id="stat-years">0</h3>
-            <p>Years of Service</p>
-          </div>
-        </div>
+  <!-- ── Navbar ── -->
+  <nav class="lhs-navbar navbar navbar-expand-lg fixed-top" id="mainNavbar">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">L<span>H</span>S</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="lawyers.html">Find Lawyers</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About Us</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+        <a href="admin/login.html" class="nav-link btn-nav">Admin Panel</a>
       </div>
+    </div>
+  </nav>
 
-      <div class="col-lg-5 d-none d-lg-flex justify-content-end">
-        <div style="position:relative;animation:fadeInUp 0.8s ease 0.3s both;">
-          <div style="width:380px;height:440px;background:rgba(255,255,255,0.06);border-radius:24px;border:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(8px);padding:28px;display:flex;flex-direction:column;gap:16px;">
-            <div style="background:rgba(201,168,76,0.1);border-radius:12px;padding:16px;border:1px solid rgba(201,168,76,0.2);">
-              <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:6px;">⚖️ TOP RATED</div>
-              <div style="color:#fff;font-weight:700;">Criminal & Civil Law Expert</div>
-              <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;">15+ years · Delhi High Court</div>
+  <!-- Barba Container -->
+  <main data-barba="container" data-barba-namespace="home">
+
+    <!-- ── Hero Section ── -->
+    <section class="hero" id="home">
+      <canvas id="hero-canvas" style="position:absolute;inset:0;pointer-events:none;"></canvas>
+      <div class="container position-relative">
+        <div class="row align-items-center min-vh-100">
+          <div class="col-lg-7">
+            <div class="hero-badge">🇮🇳 India's Trusted Legal Network</div>
+            <h1>
+              Find the Right <span class="highlight">Lawyer</span><br>
+              for Your Case
+            </h1>
+            <p class="lead">
+              Connect with verified advocates and legal experts across India. Search by practice area, city, or
+              expertise - get the legal help you deserve.
+            </p>
+
+            <!-- Search bar -->
+            <form id="hero-search-form" class="hero-actions flex-column flex-sm-row align-items-start">
+              <div class="search-hero flex-grow-1 w-100 w-sm-auto mb-3 mb-sm-0">
+                <i class="bi bi-search"
+                  style="position:absolute;left:20px;top:50%;transform:translateY(-50%);color:#9ca3af;"></i>
+                <input type="text" id="hero-search-input" placeholder="Search by lawyer name..."
+                  style="padding-left:40px;" autocomplete="off">
+                <button type="submit" class="btn btn-accent px-4">Search</button>
+              </div>
+            </form>
+
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <h3 id="stat-lawyers">0</h3>
+                <p>Verified Lawyers</p>
+              </div>
+              <div class="hero-stat">
+                <h3 id="stat-areas">0</h3>
+                <p>Practice Areas</p>
+              </div>
+              <div class="hero-stat">
+                <h3 id="stat-cities">0</h3>
+                <p>Cities Covered</p>
+              </div>
+              <div class="hero-stat">
+                <h3 id="stat-years">0</h3>
+                <p>Years of Service</p>
+              </div>
             </div>
-            <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.08);">
-              <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:6px;">🏢 CORPORATE</div>
-              <div style="color:#fff;font-weight:700;">Corporate & Tax Specialist</div>
-              <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;">12+ years · Bombay High Court</div>
+          </div>
+
+          <div class="col-lg-5 d-flex justify-content-center justify-content-lg-end mt-5 mt-lg-0">
+            <div style="position:relative;animation:fadeInUp 0.8s ease 0.3s both;">
+              <div
+                style="width:100%;max-width:380px;height:440px;background:rgba(255,255,255,0.8);border-radius:24px;border:1px solid rgba(189, 140, 125, 0.1);backdrop-filter:blur(8px);padding:28px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow);">
+                <div
+                  style="background:rgba(189, 140, 125, 0.05);border-radius:12px;padding:16px;border:1px solid rgba(189, 140, 125, 0.1);">
+                  <div style="font-size:0.75rem;color:var(--accent);margin-bottom:6px;font-weight:700;">⚖️ TOP RATED
+                  </div>
+                  <div style="color:var(--primary);font-weight:700;">Criminal & Civil Law Expert</div>
+                  <div style="color:var(--gray-600);font-size:0.85rem;">15+ years · Delhi Court</div>
+                </div>
+                <div
+                  style="background:rgba(255, 255, 255, 0.4);border-radius:12px;padding:16px;border:1px solid rgba(0, 0, 0, 0.05);">
+                  <div style="font-size:0.75rem;color:var(--gray-600);margin-bottom:6px;">🏢 CORPORATE</div>
+                  <div style="color:var(--primary);font-weight:700;">Corporate & Tax Specialist</div>
+                  <div style="color:var(--gray-600);font-size:0.85rem;">12+ years · Bombay High Court</div>
+                </div>
+                <div
+                  style="background:rgba(255, 255, 255, 0.4);border-radius:12px;padding:16px;border:1px solid rgba(0, 0, 0, 0.05);">
+                  <div style="font-size:0.75rem;color:var(--gray-600);margin-bottom:6px;">👨‍👩‍👧 FAMILY LAW</div>
+                  <div style="color:var(--primary);font-weight:700;">Family & Divorce Attorney</div>
+                  <div style="color:var(--gray-600);font-size:0.85rem;">8+ years · Bangalore</div>
+                </div>
+                <a href="lawyers.html"
+                  class="btn-accent text-center text-decoration-none rounded-pill py-2 fw-bold mt-auto"
+                  style="font-size:0.9rem;">View All Lawyers →</a>
+              </div>
             </div>
-            <div style="background:rgba(255,255,255,0.04);border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.08);">
-              <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:6px;">👨‍👩‍👧 FAMILY LAW</div>
-              <div style="color:#fff;font-weight:700;">Family & Divorce Attorney</div>
-              <div style="color:rgba(255,255,255,0.6);font-size:0.85rem;">8+ years · Bangalore</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div
+        style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);animation:fadeInUp 1s ease 0.7s both;">
+        <div
+          style="width:3px;height:60px;background:linear-gradient(to bottom, var(--accent), transparent);margin:0 auto;">
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Stats Banner ── -->
+    <section class="stats-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="number" id="stat-b-lawyers">500+</div>
+              <div class="label">Registered Lawyers</div>
             </div>
-            <a href="lawyers.html" class="btn-gold text-center text-decoration-none rounded-pill py-2 fw-bold" style="font-size:0.9rem;">View All Lawyers →</a>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="number">30+</div>
+              <div class="label">Practice Areas</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="number">50+</div>
+              <div class="label">Cities Covered</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="stat-card">
+              <div class="number">10K+</div>
+              <div class="label">Cases Assisted</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- Scroll indicator -->
-  <div style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);animation:fadeInUp 1s ease 0.7s both;">
-    <div style="width:2px;height:50px;background:linear-gradient(to bottom, rgba(201,168,76,0.8), transparent);margin:0 auto;"></div>
-  </div>
-</section>
-
-<!-- ── Stats Banner ── -->
-<section class="stats-section">
-  <div class="container">
-    <div class="row">
-      <div class="col-6 col-md-3"><div class="stat-card">
-        <div class="number" id="stat-b-lawyers">500+</div>
-        <div class="label">Registered Lawyers</div>
-      </div></div>
-      <div class="col-6 col-md-3"><div class="stat-card">
-        <div class="number">30+</div>
-        <div class="label">Practice Areas</div>
-      </div></div>
-      <div class="col-6 col-md-3"><div class="stat-card">
-        <div class="number">50+</div>
-        <div class="label">Cities Covered</div>
-      </div></div>
-      <div class="col-6 col-md-3"><div class="stat-card">
-        <div class="number">10K+</div>
-        <div class="label">Cases Assisted</div>
-      </div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ── Practice Areas Section ── -->
-<section class="section-pad bg-white">
-  <div class="container">
-    <div class="section-heading text-center mx-auto reveal">
-      <div class="label">Browse by Specialty</div>
-      <h2>Practice Areas</h2>
-      <div class="divider-gold mx-auto"></div>
-      <p>Find lawyers specialized in the area of law that matters to you.</p>
-    </div>
-    <div class="row" id="practice-areas-grid">
-      <!-- Loaded via JS -->
-      <div class="col-12 text-center py-4"><div class="loader-ring mx-auto" style="border-top-color:#1a3a5c;"></div></div>
-    </div>
-    <div class="text-center mt-3 reveal">
-      <a href="lawyers.html" class="btn btn-primary-lhs px-5">Browse All Lawyers</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Featured Lawyers Section ── -->
-<section class="section-pad" style="background:#f8f9fa;">
-  <div class="container">
-    <div class="d-flex align-items-end justify-content-between mb-5 reveal">
-      <div class="section-heading mb-0">
-        <div class="label">Our Network</div>
-        <h2>Featured Lawyers</h2>
-        <div class="divider-gold"></div>
-      </div>
-      <a href="lawyers.html" class="btn btn-primary-lhs px-4 d-none d-md-inline-flex">
-        View All <i class="bi bi-arrow-right ms-2"></i>
-      </a>
-    </div>
-    <div class="row" id="featured-lawyers">
-      <div class="col-12 text-center py-5"><div class="loader-ring mx-auto" style="border-top-color:#1a3a5c;"></div></div>
-    </div>
-    <div class="text-center mt-3 d-md-none reveal">
-      <a href="lawyers.html" class="btn btn-primary-lhs px-5">View All Lawyers</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── About Strip Section ── -->
-<section class="section-pad about-strip">
-  <div class="container">
-    <div class="row align-items-center gap-4 gap-lg-0">
-      <div class="col-lg-6 reveal-left">
-        <div class="section-heading">
-          <div class="label">Who We Are</div>
-          <h2>India's Most Trusted Legal Hiring Platform</h2>
-          <div class="divider-gold"></div>
-          <p id="about-text">Loading...</p>
+    <!-- ── Practice Areas Section ── -->
+    <section class="section-pad bg-white">
+      <div class="container">
+        <div class="section-heading text-center mx-auto">
+          <div class="label">Browse by Specialty</div>
+          <h2>Practice Areas</h2>
+          <div class="divider-accent mx-auto"></div>
+          <p>Find lawyers specialized in the area of law that matters to you.</p>
         </div>
-        <div class="d-flex gap-4 mt-4">
-          <div>
-            <div style="font-size:1.8rem;font-weight:900;color:#1a3a5c;">98%</div>
-            <div style="font-size:0.85rem;color:#6c757d;">Client Satisfaction</div>
-          </div>
-          <div>
-            <div style="font-size:1.8rem;font-weight:900;color:#1a3a5c;">500+</div>
-            <div style="font-size:0.85rem;color:#6c757d;">Verified Lawyers</div>
-          </div>
-          <div>
-            <div style="font-size:1.8rem;font-weight:900;color:#1a3a5c;">50+</div>
-            <div style="font-size:0.85rem;color:#6c757d;">Cities</div>
+        <div class="row" id="practice-areas-grid">
+          <!-- Loaded via JS -->
+          <div class="col-12 text-center py-4">
+            <div class="loader-ring mx-auto" style="border-top-color:#333335;"></div>
           </div>
         </div>
-        <a href="about.html" class="btn btn-primary-lhs mt-4 px-4">Learn More About Us</a>
+        <div class="text-center mt-3">
+          <a href="lawyers.html" class="btn btn-primary-lhs px-5">Browse All Lawyers</a>
+        </div>
       </div>
-      <div class="col-lg-6 reveal-right">
-        <div style="background:linear-gradient(135deg,#1a3a5c,#2563a8);border-radius:24px;padding:40px;color:#fff;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(201,168,76,0.1);border-radius:50%;"></div>
-          <h3 style="font-family:'Playfair Display',serif;margin-bottom:20px;">Why Choose LHS?</h3>
-          <ul class="list-unstyled" style="position:relative;z-index:1;">
-            <li class="d-flex gap-3 mb-4">
-              <span style="font-size:1.4rem;">✅</span>
-              <div><strong>Verified Professionals</strong><br><span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">All lawyers are verified and background-checked</span></div>
-            </li>
-            <li class="d-flex gap-3 mb-4">
-              <span style="font-size:1.4rem;">⚡</span>
-              <div><strong>Quick Connect</strong><br><span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Get in touch with experts within minutes</span></div>
-            </li>
-            <li class="d-flex gap-3 mb-4">
-              <span style="font-size:1.4rem;">🔒</span>
-              <div><strong>Secure & Private</strong><br><span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Your case information stays confidential</span></div>
-            </li>
-            <li class="d-flex gap-3">
-              <span style="font-size:1.4rem;">🌐</span>
-              <div><strong>Pan-India Coverage</strong><br><span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Lawyers across all major courts and cities</span></div>
-            </li>
-          </ul>
+    </section>
+
+
+
+    <!-- ── About Strip Section ── -->
+    <section class="section-pad about-strip">
+      <div class="container">
+        <div class="row align-items-center gap-4 gap-lg-0">
+          <div class="col-lg-6">
+            <div class="section-heading">
+              <div class="label">Who We Are</div>
+              <h2>India's Most Trusted Legal Hiring Platform</h2>
+              <div class="divider-accent"></div>
+              <p id="about-text">Loading...</p>
+            </div>
+            <div class="d-flex gap-4 mt-4">
+              <div>
+                <div style="font-size:1.8rem;font-weight:900;color:var(--primary);">98%</div>
+                <div style="font-size:0.85rem;color:var(--gray-600);">Client Satisfaction</div>
+              </div>
+              <div>
+                <div style="font-size:1.8rem;font-weight:900;color:var(--primary);">500+</div>
+                <div style="font-size:0.85rem;color:var(--gray-600);">Verified Lawyers</div>
+              </div>
+              <div>
+                <div style="font-size:1.8rem;font-weight:900;color:var(--primary);">50+</div>
+                <div style="font-size:0.85rem;color:var(--gray-600);">Cities</div>
+              </div>
+            </div>
+            <a href="about.html" class="btn btn-primary-lhs mt-4 px-4">Learn More About Us</a>
+          </div>
+          <div class="col-lg-6">
+            <div
+              style="background:linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);border-radius:24px;padding:40px;color:#fff;position:relative;overflow:hidden;">
+              <div
+                style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(189, 140, 125, 0.1);border-radius:50%;">
+              </div>
+              <h3 style="font-family:'Playfair Display',serif;margin-bottom:20px;color:#fff;">Why Choose LHS?</h3>
+              <ul class="list-unstyled" style="position:relative;z-index:1;">
+                <li class="d-flex gap-3 mb-4">
+                  <span style="font-size:1.4rem;">✅</span>
+                  <div><strong>Verified Professionals</strong><br><span
+                      style="color:rgba(255,255,255,0.7);font-size:0.9rem;">All lawyers are verified and
+                      background-checked</span></div>
+                </li>
+                <li class="d-flex gap-3 mb-4">
+                  <span style="font-size:1.4rem;">⚡</span>
+                  <div><strong>Quick Connect</strong><br><span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Get
+                      in touch with experts within minutes</span></div>
+                </li>
+                <li class="d-flex gap-3 mb-4">
+                  <span style="font-size:1.4rem;">🔒</span>
+                  <div><strong>Secure & Private</strong><br><span
+                      style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Your case information stays
+                      confidential</span></div>
+                </li>
+                <li class="d-flex gap-3">
+                  <span style="font-size:1.4rem;">🌐</span>
+                  <div><strong>Pan-India Coverage</strong><br><span
+                      style="color:rgba(255,255,255,0.7);font-size:0.9rem;">Lawyers across all major courts and
+                      cities</span></div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA Section ── -->
+    <section class="section-pad" style="background:linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);">
+      <div class="container text-center">
+        <div class="hero-badge mb-3">Get Started Today</div>
+        <h2 style="color:#fff;font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:16px;">Ready to Find
+          Your Lawyer?</h2>
+        <p style="color:rgba(255,255,255,0.7);max-width:480px;margin:0 auto 32px;font-size:1.05rem;">Browse our verified
+          network of lawyers and advocates across India.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="lawyers.html" class="btn btn-accent px-5 py-3">Find a Lawyer</a>
+          <a href="contact.html" class="btn btn-outline-dark-lhs px-5 py-3">Contact Us</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="lhs-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <div class="brand mb-3">L<span>H</span>S</div>
+          <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;max-width:280px;">India's trusted platform connecting
+            clients with verified legal professionals.</p>
+        </div>
+        <div class="col-6 col-md-2 mb-4">
+          <h6>Platform</h6>
+          <a href="index.html">Home</a>
+          <a href="lawyers.html">Find Lawyers</a>
+          <a href="about.html">About Us</a>
+          <a href="contact.html">Contact</a>
+        </div>
+        <div class="col-6 col-md-3 mb-4">
+          <h6>Practice Areas</h6>
+          <a href="lawyers.html?practice_area=Criminal Law">Criminal Law</a>
+          <a href="lawyers.html?practice_area=Family Law">Family Law</a>
+          <a href="lawyers.html?practice_area=Corporate Law">Corporate Law</a>
+          <a href="lawyers.html?practice_area=Property Law">Property Law</a>
+          <a href="lawyers.html">More Areas →</a>
+        </div>
+        <div class="col-md-3 mb-4">
+          <h6>Contact</h6>
+          <a href="tel:+911234567890"><i class="bi bi-telephone me-2"></i>+91 12345 67890</a>
+          <a href="#"><i class="bi bi-envelope me-2"></i>info@example.com</a>
+          <a href="#"><i class="bi bi-geo-alt me-2"></i>Loni, India</a>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <p class="mb-0">© 2024 LHS - Lawyer Hiring System. All rights reserved.</p>
+        <div class="d-flex gap-3">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </footer>
 
-<!-- ── CTA Section ── -->
-<section class="section-pad" style="background:linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 100%);">
-  <div class="container text-center reveal">
-    <div class="hero-badge mb-3">Get Started Today</div>
-    <h2 style="color:#fff;font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:16px;">Ready to Find Your Lawyer?</h2>
-    <p style="color:rgba(255,255,255,0.7);max-width:480px;margin:0 auto 32px;font-size:1.05rem;">Browse our verified network of lawyers and advocates across India.</p>
-    <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="lawyers.html" class="btn btn-gold px-5 py-3">Find a Lawyer</a>
-      <a href="contact.html" class="btn btn-outline-light-lhs px-5 py-3">Contact Us</a>
-    </div>
-  </div>
-</section>
+  <!-- Back to Top -->
+  <button id="back-to-top" aria-label="Back to top">
+    <i class="bi bi-chevron-up"></i>
+  </button>
 
-<!-- ── Footer ── -->
-<footer class="lhs-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-4 mb-4">
-        <div class="brand mb-3">L<span>H</span>S</div>
-        <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;max-width:280px;">India's trusted platform connecting clients with verified legal professionals.</p>
-        <div class="mt-3">
-          <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
-          <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
-        </div>
-      </div>
-      <div class="col-6 col-md-2 mb-4">
-        <h6>Platform</h6>
-        <a href="index.html">Home</a>
-        <a href="lawyers.html">Find Lawyers</a>
-        <a href="about.html">About Us</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <div class="col-6 col-md-3 mb-4">
-        <h6>Practice Areas</h6>
-        <a href="lawyers.html?practice_area=Criminal Law">Criminal Law</a>
-        <a href="lawyers.html?practice_area=Family Law">Family Law</a>
-        <a href="lawyers.html?practice_area=Corporate Law">Corporate Law</a>
-        <a href="lawyers.html?practice_area=Property Law">Property Law</a>
-        <a href="lawyers.html">More Areas →</a>
-      </div>
-      <div class="col-md-3 mb-4">
-        <h6>Contact</h6>
-        <a href="tel:+911234567890"><i class="bi bi-telephone me-2"></i>+91 12345 67890</a>
-        <a href="mailto:info@lhs.in"><i class="bi bi-envelope me-2"></i>info@lhs.in</a>
-        <a href="#"><i class="bi bi-geo-alt me-2"></i>New Delhi, India</a>
-      </div>
-    </div>
-    <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-2">
-      <p class="mb-0">© 2024 LHS — Lawyer Hiring System. All rights reserved.</p>
-      <div class="d-flex gap-3">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-      </div>
-    </div>
-  </div>
-</footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- GSAP & Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+  <!-- Smooth Scroll & Transitions -->
+  <script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.min.js"></script>
 
-<!-- Back to Top -->
-<button id="back-to-top" aria-label="Back to top">
-  <i class="bi bi-chevron-up"></i>
-</button>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/api.js"></script>
-<script src="assets/js/main.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/animations.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
+
 </html>

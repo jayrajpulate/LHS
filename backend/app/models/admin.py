@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, BigInteger, DateTime
-from sqlalchemy.sql import func
 from app.db.session import Base
+from app.core.timezone import get_ist_now
 
 class Admin(Base):
     __tablename__ = "tbladmin"
@@ -10,5 +10,5 @@ class Admin(Base):
     MobileNumber = Column(BigInteger)
     Email = Column(String(120), unique=True, index=True)
     Password = Column(String(120))
-    AdminRegdate = Column(DateTime, default=func.now())
+    AdminRegdate = Column(DateTime, default=get_ist_now)
     UserType = Column(Integer)

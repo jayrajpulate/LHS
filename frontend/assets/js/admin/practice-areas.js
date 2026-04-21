@@ -26,7 +26,7 @@ async function fetchAreas() {
       ${areas.map((a, i) => `
         <div class="list-group-item d-flex align-items-center justify-content-between py-3 animate-in" id="area-item-${a.id}" style="animation-delay:${i * 0.04}s">
           <div class="d-flex align-items-center gap-3">
-            <div style="width:36px;height:36px;background:linear-gradient(135deg,rgba(26,58,92,0.1),rgba(201,168,76,0.15));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⚖️</div>
+            <div style="width:36px;height:36px;background:linear-gradient(135deg,rgba(51,51,53,0.1),rgba(189,140,125,0.15));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;">⚖️</div>
             <div>
               <span id="area-name-${a.id}" class="fw-semibold">${a.PracticeArea}</span>
               <div class="text-muted" style="font-size:0.75rem">Added by ${a.AddedBy || 'Admin'} · ${formatDate(a.CreationDate)}</div>

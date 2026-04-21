@@ -29,8 +29,10 @@ class Settings(BaseSettings):
 
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        from urllib.parse import quote_plus
+        encoded_password = quote_plus(self.POSTGRES_PASSWORD)
         return (
-            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"postgresql://{self.POSTGRES_USER}:{encoded_password}"
             f"@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
         )
 

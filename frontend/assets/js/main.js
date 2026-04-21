@@ -1,19 +1,21 @@
 /**
  * LHS — Homepage JavaScript
  * Handles: hero counter, featured lawyers, practice areas, about snippet
+ * NOTE: Navbar, back-to-top, loader, and reveals are handled by animations.js
  */
 document.addEventListener('DOMContentLoaded', async () => {
-  initNavbarScroll();
-  initRevealAnimations();
-  initBackToTop();
   initHeroParticles();
   await Promise.all([
     loadAboutSnippet(),
-    loadFeaturedLawyers(),
     loadPracticeAreas(),
   ]);
   loadStats();
-  hideLoader();
+
+  // After all dynamic content is loaded, refresh scroll calculations
+  // Use a small delay to let the DOM settle after innerHTML injections
+  setTimeout(() => {
+    if (typeof refreshScroll === 'function') refreshScroll();
+  }, 300);
 });
 
 // ── Hero Particle Background ──────────────────────────────────────────
@@ -81,10 +83,8 @@ async function loadFeaturedLawyers() {
     }
     container.innerHTML = lawyers.map(lawyer => createLawyerCard(lawyer)).join('');
 
-    // Staggered animation
-    container.querySelectorAll('.lawyer-card-wrap').forEach((el, i) => {
-      el.style.animation = `fadeInUp 0.5s ease ${i * 0.07}s both`;
-    });
+    // Handled by animations.js ScrollTrigger
+    if (typeof initScrollReveals === 'function') initScrollReveals();
   } catch (err) {
     container.innerHTML = `<p class="text-danger col-12 text-center">${err.message}</p>`;
   }
@@ -99,9 +99,9 @@ function createLawyerCard(lawyer) {
         <div class="card-img-wrapper">
           ${imgUrl
             ? `<img src="${imgUrl}" class="card-img-top" alt="${lawyer.LawyerName}" loading="lazy">`
-            : `<div class="card-img-top d-flex align-items-center justify-content-center" style="height:240px;background:linear-gradient(135deg,#1a3a5c,#2563a8);color:#fff;font-size:3rem;font-weight:900;">${getInitials(lawyer.LawyerName)}</div>`}
+            : `<div class="card-img-top d-flex align-items-center justify-content-center" style="height:240px;background:linear-gradient(135deg,#333335,#5a5a5c);color:#fff;font-size:3rem;font-weight:900;">${getInitials(lawyer.LawyerName)}</div>`}
           <div class="card-overlay">
-            <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-sm btn-gold">View Profile</a>
+            <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-sm btn-accent">View Profile</a>
           </div>
         </div>
         <div class="card-body">
@@ -139,15 +139,15 @@ async function loadPracticeAreas() {
     const areas = await api.get('/practice-areas/');
     if (!areas.length) { container.innerHTML = '<p class="col-12 text-center text-muted">No practice areas yet.</p>'; return; }
     container.innerHTML = areas.slice(0, 12).map((area, i) => `
-      <div class="col-6 col-md-4 col-lg-2 mb-3" style="animation: fadeInUp 0.4s ease ${i * 0.05}s both;">
+      <div class="col-6 col-md-4 col-lg-2 mb-3">
         <a href="lawyers.html?practice_area=${encodeURIComponent(area.PracticeArea)}" class="text-decoration-none">
-          <div class="practice-card reveal">
+          <div class="practice-card">
             <div class="icon-wrap">${getAreaIcon(area.PracticeArea)}</div>
             <h5>${area.PracticeArea}</h5>
           </div>
         </a>
       </div>`).join('');
-    initRevealAnimations();
+    if (typeof initScrollReveals === 'function') initScrollReveals();
   } catch {
     container.innerHTML = '';
   }
@@ -163,16 +163,25 @@ async function loadStats() {
     const statsMap = {
       'stat-lawyers': lawyerData.total || 0,
       'stat-areas': areaData.length || 0,
-      'stat-cities': 50,
-      'stat-years': new Date().getFullYear() - 2018,
     };
+    
     Object.entries(statsMap).forEach(([id, val]) => {
       const el = document.getElementById(id);
       if (el) {
-        const obs = new IntersectionObserver(([entry]) => {
-          if (entry.isIntersecting) { animateCountUp(el, val); obs.disconnect(); }
-        }, { threshold: 0.5 });
-        obs.observe(el);
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 90%',
+          onEnter: () => {
+            gsap.to({ val: 0 }, {
+              val: val,
+              duration: 2,
+              ease: 'power3.out',
+              onUpdate: function() {
+                el.innerText = Math.ceil(this.targets()[0].val);
+              }
+            });
+          }
+        });
       }
     });
   } catch {}

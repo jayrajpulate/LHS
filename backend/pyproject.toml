@@ -16,6 +16,8 @@ dependencies = [
     "alembic>=1.12.1",
     "aiofiles>=23.2.1",
     "python-dotenv>=1.0.0",
+    "bcrypt==3.2.2",
+    "tzdata>=2026.1",
 ]
 
 [build-system]

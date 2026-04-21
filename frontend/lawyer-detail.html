@@ -9,20 +9,29 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/animations.css" rel="stylesheet">
   <style>
-    .profile-hero { background: linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 100%); padding: 110px 0 60px; }
-    .profile-avatar { width: 140px; height: 140px; object-fit: cover; border-radius: 16px; border: 4px solid rgba(201,168,76,0.6); }
-    .profile-avatar-placeholder { width:140px;height:140px;border-radius:16px;background:linear-gradient(135deg,#1a3a5c,#2563a8);border:4px solid rgba(201,168,76,0.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:3.5rem;font-weight:900;font-family:'Inter',sans-serif; }
-    .info-card { background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(13,27,42,0.08);border:1px solid #e9ecef;margin-bottom:20px; }
+    .info-card { background:#fff;border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(73,73,75,0.08);border:1px solid #e9ecef;margin-bottom:20px; }
     .info-row { display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #f0f4f8; }
     .info-row:last-child { border-bottom:none; }
     .info-label { width:140px;flex-shrink:0;font-size:0.82rem;font-weight:700;color:#6c757d;text-transform:uppercase;letter-spacing:0.5px;padding-top:2px; }
     .info-value { flex:1;color:#1e2d3d;font-size:0.95rem; }
-    .area-pill { display:inline-block;background:rgba(26,58,92,0.08);color:#1a3a5c;font-size:0.8rem;font-weight:600;padding:5px 14px;border-radius:100px;margin:3px;border:1px solid rgba(26,58,92,0.15); }
+    .area-pill { display:inline-block;background:rgba(51,51,53,0.08);color:#333335;font-size:0.8rem;font-weight:600;padding:5px 14px;border-radius:100px;margin:3px;border:1px solid rgba(51,51,53,0.15); }
   </style>
 </head>
-<body>
-<div id="page-loader"><div class="loader-ring"></div><div class="loader-text">LHS</div></div>
+<body data-barba="wrapper">
+<div id="page-loader">
+  <div class="loader-content">
+    <div class="loader-logo-wrap">
+      <span class="loader-char">L</span>
+      <span class="loader-char">H</span>
+      <span class="loader-char">S</span>
+    </div>
+    <div class="loader-progress">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+</div>
 <div id="toast-container"></div>
 
 <nav class="lhs-navbar navbar navbar-expand-lg fixed-top">
@@ -40,6 +49,9 @@
     </div>
   </div>
 </nav>
+
+<!-- Barba Container -->
+<main data-barba="container" data-barba-namespace="lawyer-detail">
 
 <div class="profile-hero" id="profile-hero">
   <div class="container">
@@ -63,7 +75,7 @@
 
 <div class="container py-5">
   <div class="row" id="profile-content">
-    <div class="col-12 text-center py-5"><div class="loader-ring mx-auto" style="border-top-color:#1a3a5c;"></div></div>
+    <div class="col-12 text-center py-5"><div class="loader-ring mx-auto" style="border-top-color:#333335;"></div></div>
   </div>
 </div>
 
@@ -78,71 +90,93 @@
 </footer>
 
 <button id="back-to-top"><i class="bi bi-chevron-up"></i></button>
+</main>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- GSAP & Plugins -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Flip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/Observer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/CustomEase.min.js"></script>
+<!-- Smooth Scroll & Transitions -->
+<script src="https://unpkg.com/lenis@1.1.9/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@barba/core@2.10.3/dist/barba.min.js"></script>
+
 <script src="assets/js/api.js"></script>
+<script src="assets/js/animations.js"></script>
 <script>
+// Component specific logic for lawyer-detail
 document.addEventListener('DOMContentLoaded', async () => {
-  initNavbarScroll();
-  initBackToTop();
   const id = new URLSearchParams(window.location.search).get('id');
-  if (!id) { window.location.href = 'lawyers.html'; return; }
+  if (!id) return;
   try {
     const lawyer = await api.get(`/lawyers/${id}`);
     renderProfile(lawyer);
   } catch (err) {
-    document.getElementById('profile-content').innerHTML = `<div class="col-12 text-center py-5"><h4 class="text-danger">Lawyer not found</h4><a href="lawyers.html" class="btn btn-primary-lhs mt-3">Back to Lawyers</a></div>`;
+    const content = document.getElementById('profile-content');
+    if (content) content.innerHTML = `<div class="col-12 text-center py-5"><h4 class="text-danger">Lawyer not found</h4><a href="lawyers.html" class="btn btn-primary-lhs mt-3">Back to Lawyers</a></div>`;
   }
-  hideLoader();
+  if (typeof hideLoader === 'function') hideLoader();
 });
 
 function renderProfile(l) {
   document.title = `${l.LawyerName} | LHS`;
-  document.getElementById('profile-name').textContent = l.LawyerName;
-  document.getElementById('breadcrumb-name').textContent = l.LawyerName;
+  const nameEl = document.getElementById('profile-name');
+  const breadEl = document.getElementById('breadcrumb-name');
+  if (nameEl) nameEl.textContent = l.LawyerName;
+  if (breadEl) breadEl.textContent = l.LawyerName;
 
   const imgUrl = getLawyerImageUrl(l.ProfilePic);
-  document.getElementById('profile-avatar-wrap').innerHTML = imgUrl
-    ? `<img src="${imgUrl}" class="profile-avatar" alt="${l.LawyerName}">`
-    : `<div class="profile-avatar-placeholder">${getInitials(l.LawyerName)}</div>`;
+  const avatarWrap = document.getElementById('profile-avatar-wrap');
+  if (avatarWrap) {
+    avatarWrap.innerHTML = imgUrl
+      ? `<img src="${imgUrl}" class="profile-avatar" alt="${l.LawyerName}">`
+      : `<div class="profile-avatar-placeholder">${getInitials(l.LawyerName)}</div>`;
+  }
 
   const areas = (l.PracticeAreas || '').split(',').filter(Boolean);
-  document.getElementById('profile-areas').innerHTML = areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('');
+  const areasEl = document.getElementById('profile-areas');
+  if (areasEl) areasEl.innerHTML = areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('');
 
   const meta = [];
   if (l.City || l.State) meta.push(`<span><i class="bi bi-geo-alt-fill me-1"></i>${[l.City, l.State].filter(Boolean).join(', ')}</span>`);
   if (l.LawyerExp) meta.push(`<span><i class="bi bi-briefcase-fill me-1"></i>${l.LawyerExp}+ years</span>`);
-  if (l.LanguagesKnown) meta.push(`<span><i class="bi bi-translate me-1"></i>${l.LanguagesKnown}</span>`);
-  document.getElementById('profile-meta').innerHTML = meta.join('');
+  const metaEl = document.getElementById('profile-meta');
+  if (metaEl) metaEl.innerHTML = meta.join('');
 
-  document.getElementById('profile-content').innerHTML = `
-    <div class="col-lg-8 reveal-left">
-      ${l.Description ? `<div class="info-card"><h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">About</h4><p style="color:#4a5568;line-height:1.8;">${l.Description}</p></div>` : ''}
-      <div class="info-card">
-        <h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Profile Details</h4>
-        ${row('Name', l.LawyerName)}
-        ${l.LawyerExp ? row('Experience', `${l.LawyerExp}+ years`) : ''}
-        ${l.PracticeAreas ? row('Practice Areas', areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('')) : ''}
-        ${l.Courts ? row('Courts', l.Courts) : ''}
-        ${l.LanguagesKnown ? row('Languages', l.LanguagesKnown) : ''}
-        ${l.OfficeAddress ? row('Office', l.OfficeAddress) : ''}
-        ${(l.City || l.State) ? row('Location', [l.City, l.State].filter(Boolean).join(', ')) : ''}
-        ${l.Website ? row('Website', `<a href="${l.Website}" target="_blank" rel="noopener">${l.Website}</a>`) : ''}
+  const contentEl = document.getElementById('profile-content');
+  if (contentEl) {
+    contentEl.innerHTML = `
+      <div class="col-lg-8 reveal-left">
+        ${l.Description ? `<div class="info-card"><h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">About</h4><p style="color:#4a5568;line-height:1.8;">${l.Description}</p></div>` : ''}
+        <div class="info-card">
+          <h4 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Profile Details</h4>
+          ${profileRow('Name', l.LawyerName)}
+          ${l.LawyerExp ? profileRow('Experience', `${l.LawyerExp}+ years`) : ''}
+          ${l.PracticeAreas ? profileRow('Practice Areas', areas.map(a => `<span class="area-pill">${a.trim()}</span>`).join('')) : ''}
+          ${l.Courts ? profileRow('Courts', l.Courts) : ''}
+          ${l.LanguagesKnown ? profileRow('Languages', l.LanguagesKnown) : ''}
+          ${l.OfficeAddress ? profileRow('Office', l.OfficeAddress) : ''}
+          ${(l.City || l.State) ? profileRow('Location', [l.City, l.State].filter(Boolean).join(', ')) : ''}
+          ${l.Website ? profileRow('Website', `<a href="${l.Website}" target="_blank" rel="noopener">${l.Website}</a>`) : ''}
+        </div>
       </div>
-    </div>
-    <div class="col-lg-4 reveal-right">
-      <div class="info-card" style="position:sticky;top:90px;">
-        <h5 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Contact</h5>
-        ${l.LawyerMobileNo ? `<a href="tel:${l.LawyerMobileNo}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;"><i class="bi bi-telephone-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Phone</div><div class="fw-semibold">${l.LawyerMobileNo}</div></div></a>` : ''}
-        ${l.LawyerEmail ? `<a href="mailto:${l.LawyerEmail}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;"><i class="bi bi-envelope-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Email</div><div class="fw-semibold" style="font-size:0.9rem;">${l.LawyerEmail}</div></div></a>` : ''}
-        ${l.OfficeAddress ? `<div class="d-flex align-items-start gap-3 mb-4" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(26,58,92,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a3a5c;flex-shrink:0;margin-top:2px;"><i class="bi bi-geo-alt-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Office</div><div style="font-size:0.9rem;">${l.OfficeAddress}</div></div></div>` : ''}
-        <a href="lawyers.html" class="btn btn-primary-lhs w-100 mb-2"><i class="bi bi-arrow-left me-2"></i>Back to Lawyers</a>
-      </div>
-    </div>`;
+      <div class="col-lg-4 reveal-right">
+        <div class="info-card" style="position:sticky;top:90px;">
+          <h5 style="font-family:'Playfair Display',serif;margin-bottom:16px;">Contact</h5>
+          ${l.LawyerMobileNo ? `<a href="tel:${l.LawyerMobileNo}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(189,140,125,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#333335;flex-shrink:0;"><i class="bi bi-telephone-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Phone</div><div class="fw-semibold">${l.LawyerMobileNo}</div></div></a>` : ''}
+          ${l.LawyerEmail ? `<a href="mailto:${l.LawyerEmail}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(189,140,125,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#333335;flex-shrink:0;"><i class="bi bi-envelope-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Email</div><div class="fw-semibold" style="font-size:0.9rem;">${l.LawyerEmail}</div></div></a>` : ''}
+          ${l.OfficeAddress ? `<div class="d-flex align-items-start gap-3 mb-4" style="color:#1e2d3d;"><div style="width:42px;height:42px;background:rgba(189,140,125,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#333335;flex-shrink:0;margin-top:2px;"><i class="bi bi-geo-alt-fill"></i></div><div><div style="font-size:0.75rem;color:#6c757d;font-weight:700;text-transform:uppercase;">Office</div><div style="font-size:0.9rem;">${l.OfficeAddress}</div></div></div>` : ''}
+          <a href="lawyers.html" class="btn btn-primary-lhs w-100 mb-2"><i class="bi bi-arrow-left me-2"></i>Back to Lawyers</a>
+        </div>
+      </div>`;
+  }
 
-  initRevealAnimations();
+  if (typeof initScrollReveals === 'function') initScrollReveals();
 }
 
-function row(label, val) {
+function profileRow(label, val) {
   return `<div class="info-row"><div class="info-label">${label}</div><div class="info-value">${val}</div></div>`;
 }
 </script>

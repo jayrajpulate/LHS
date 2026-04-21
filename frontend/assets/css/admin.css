@@ -6,25 +6,25 @@
 
 :root {
   --admin-sidebar-w: 260px;
-  --admin-sidebar-bg: #0d1b2a;
-  --admin-sidebar-border: rgba(201,168,76,0.2);
-  --admin-accent: #c9a84c;
-  --admin-accent-light: #e8c97a;
-  --admin-primary: #1a3a5c;
+  --admin-sidebar-bg: #49494b; /* Onyx */
+  --admin-sidebar-border: rgba(189, 140, 125, 0.2);
+  --admin-accent: #bd8c7d; /* Rose Gold */
+  --admin-accent-light: #d1bfa7; /* Soft Gold */
+  --admin-primary: #5a5a5c;
   --admin-success: #10b981;
   --admin-danger: #ef4444;
   --admin-warning: #f59e0b;
   --admin-info: #3b82f6;
-  --admin-bg: #f0f4f8;
+  --admin-bg: #f2ece4;
   --admin-card-bg: #ffffff;
-  --admin-text: #1e2d3d;
-  --admin-muted: #6c757d;
-  --admin-border: #e2e8f0;
+  --admin-text: #333335;
+  --admin-muted: #8e8e90;
+  --admin-border: #eae5dd;
   --font: 'Inter', sans-serif;
   --radius: 12px;
   --radius-sm: 6px;
-  --shadow: 0 2px 16px rgba(13,27,42,0.08);
-  --shadow-md: 0 4px 24px rgba(13,27,42,0.12);
+  --shadow: 0 2px 16px rgba(51, 51, 53, 0.08);
+  --shadow-md: 0 4px 24px rgba(51, 51, 53, 0.12);
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -62,7 +62,7 @@ body {
 .admin-sidebar.collapsed { width: 70px; }
 .admin-sidebar::-webkit-scrollbar { width: 4px; }
 .admin-sidebar::-webkit-scrollbar-track { background: transparent; }
-.admin-sidebar::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 4px; }
+.admin-sidebar::-webkit-scrollbar-thumb { background: rgba(189, 140, 125, 0.3); border-radius: 4px; }
 
 .sidebar-brand {
   padding: 22px 20px;
@@ -131,7 +131,7 @@ body {
 }
 .sidebar-nav .nav-link:hover,
 .sidebar-nav .nav-link.active {
-  background: rgba(201,168,76,0.12);
+  background: rgba(189, 140, 125, 0.12);
   color: var(--admin-accent);
 }
 .sidebar-nav .nav-link:hover i,
@@ -139,7 +139,7 @@ body {
   color: var(--admin-accent);
 }
 .sidebar-nav .nav-link.active {
-  background: rgba(201,168,76,0.18);
+  background: rgba(189, 140, 125, 0.18);
   border-left: 3px solid var(--admin-accent);
 }
 
@@ -268,7 +268,7 @@ body {
 .kpi-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(201,168,76,0.3);
+  border-color: rgba(189, 140, 125, 0.3);
 }
 .kpi-card .kpi-icon {
   width: 52px;
@@ -334,7 +334,7 @@ body {
 .data-table-search input:focus {
   outline: none;
   border-color: var(--admin-accent);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  box-shadow: 0 0 0 3px rgba(189, 140, 125, 0.12);
   background: var(--admin-card-bg);
 }
 .data-table-search i {
@@ -365,7 +365,7 @@ body {
 }
 .table tbody tr:last-child td { border-bottom: none; }
 .table tbody tr { transition: var(--transition); }
-.table tbody tr:hover { background: rgba(201,168,76,0.04); }
+.table tbody tr:hover { background: rgba(189, 140, 125, 0.04); }
 
 /* ── Table Image Avatar ──────────────────────────────────────────── */
 .table-avatar {
@@ -424,7 +424,7 @@ body {
 }
 .action-btn.edit   { background: rgba(59,130,246,0.1); color: var(--admin-info); }
 .action-btn.delete { background: rgba(239,68,68,0.1);  color: var(--admin-danger); }
-.action-btn.view   { background: rgba(201,168,76,0.1); color: var(--admin-accent); }
+.action-btn.view   { background: rgba(189, 140, 125, 0.1); color: var(--admin-accent); }
 .action-btn.toggle { background: rgba(16,185,129,0.1); color: var(--admin-success); }
 .action-btn:hover  { transform: scale(1.15); filter: brightness(1.15); }
 
@@ -449,7 +449,7 @@ body {
 .admin-form .form-control:focus,
 .admin-form .form-select:focus {
   border-color: var(--admin-accent);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  box-shadow: 0 0 0 3px rgba(189, 140, 125, 0.12);
   background: var(--admin-card-bg);
 }
 .admin-form textarea.form-control { resize: vertical; min-height: 100px; }
@@ -466,7 +466,7 @@ body {
 }
 .upload-area:hover, .upload-area.dragover {
   border-color: var(--admin-accent);
-  background: rgba(201,168,76,0.04);
+  background: rgba(189, 140, 125, 0.04);
 }
 .upload-area .upload-icon {
   font-size: 2rem;
@@ -555,10 +555,10 @@ body {
   cursor: pointer;
 }
 .btn-admin-primary:hover {
-  background: #2563a8;
+  background: #5a5a5c;
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(26,58,92,0.3);
+  box-shadow: 0 4px 12px rgba(51, 51, 53, 0.3);
 }
 .btn-admin-gold {
   background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-light));
@@ -573,7 +573,7 @@ body {
 }
 .btn-admin-gold:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.4);
+  box-shadow: 0 4px 16px rgba(189, 140, 125, 0.4);
 }
 .btn-admin-danger {
   background: var(--admin-danger);
@@ -649,28 +649,167 @@ body {
   animation: fadeInUp 0.4s ease both;
 }
 
-/* ── Login Page ──────────────────────────────────────────────────── */
+/* ── Login Page (Premium Redesign) ────────────────────────────────── */
 body.login-page {
-  background: linear-gradient(135deg, var(--admin-sidebar-bg) 0%, var(--admin-primary) 100%);
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(189, 140, 125, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(142, 142, 144, 0.15) 0%, transparent 40%),
+    linear-gradient(135deg, #49494b 0%, #333335 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
 }
+body.login-page::before {
+  content: '';
+  position: absolute;
+  top: -10%; left: -10%;
+  width: 40%; height: 40%;
+  background: radial-gradient(circle, rgba(189, 140, 125, 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+}
+body.login-page::after {
+  content: '';
+  position: absolute;
+  bottom: -10%; right: -10%;
+  width: 40%; height: 40%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
 .login-card {
-  background: var(--admin-card-bg);
-  border-radius: calc(var(--radius) * 1.5);
-  padding: 42px 40px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 28px;
+  padding: 48px 44px;
   width: 100%;
-  max-width: 420px;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.25);
-  animation: fadeInUp 0.5s ease;
+  max-width: 440px;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  z-index: 10;
 }
+
 .login-logo {
-  font-size: 1.8rem;
+  font-size: 2.22rem;
   font-weight: 900;
-  color: var(--admin-primary);
-  margin-bottom: 6px;
+  color: var(--admin-sidebar-bg);
+  margin-bottom: 2px;
   font-family: 'Playfair Display', serif;
+  letter-spacing: -1px;
 }
 .login-logo span { color: var(--admin-accent); }
+
+.login-card .form-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--admin-muted);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
+.login-card .input-group-text {
+  border: none;
+  background: rgba(240, 244, 248, 0.8) !important;
+  color: var(--admin-muted);
+  transition: var(--transition);
+}
+
+.login-card .form-control {
+  background: rgba(240, 244, 248, 0.8) !important;
+  border: none !important;
+  padding: 14px 18px !important;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  border-radius: 12px;
+}
+.login-card .form-control:focus {
+  background: #fff !important;
+  box-shadow: 0 8px 20px rgba(189, 140, 125, 0.15) !important;
+}
+
+.login-card .btn-admin-gold {
+  background: linear-gradient(135deg, var(--admin-accent) 0%, #a67b6d 100%);
+  padding: 16px !important;
+  font-size: 1.05rem;
+  letter-spacing: 0.5px;
+  border-radius: 14px;
+  box-shadow: 0 10px 20px rgba(189, 140, 125, 0.25);
+}
+.login-card .btn-admin-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(189, 140, 125, 0.35);
+  background: linear-gradient(135deg, #e8c97a 0%, var(--admin-accent) 100%);
+}
+
+/* ── Interactive Toggle Switch ───────────────────────────────────────── */
+.admin-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+.admin-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.admin-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(73, 73, 75, 0.15); /* Onyx with low opacity */
+  transition: .4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 34px;
+  border: 1px solid rgba(73, 73, 75, 0.1);
+}
+.admin-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.admin-switch input:checked + .slider {
+  background-color: var(--admin-accent); /* Rose Gold */
+  border-color: var(--admin-accent);
+}
+.admin-switch input:focus + .slider {
+  box-shadow: 0 0 1px var(--admin-accent);
+}
+.admin-switch input:checked + .slider:before {
+  transform: translateX(20px);
+}
+.admin-switch .slider:hover {
+  border-color: var(--admin-accent);
+}
+.admin-switch.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+/* Spinner inside the switch thumb when loading */
+.admin-switch.loading .slider:before {
+  border: 2px solid #ccc;
+  border-top: 2px solid var(--admin-accent);
+  animation: switch-spin 0.8s linear infinite;
+  background-color: transparent;
+  box-shadow: none;
+}
+@keyframes switch-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

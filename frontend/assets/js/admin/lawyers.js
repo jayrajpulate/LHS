@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   requireAuth();
   initSidebar();
   fetchAdminLawyers();
+  fetchDraftLawyers(); // Load draft count
   bindEvents();
 });
 
@@ -122,7 +123,10 @@ function lawyerRow(l, i) {
       <div class="d-flex gap-1">
         <button class="action-btn view"   onclick="openViewProfile(${l.id})" title="Public Profile"><i class="bi bi-eye"></i></button>
         <button class="action-btn edit"   onclick="openEditModal(${l.id})"   title="Edit"><i class="bi bi-pencil"></i></button>
-        <button class="action-btn toggle" onclick="togglePublic(${l.id})"    title="Toggle Visibility"><i class="bi bi-toggle-on"></i></button>
+        <label class="admin-switch" title="Toggle Visibility">
+          <input type="checkbox" ${l.IsPublic ? 'checked' : ''} onchange="togglePublic(${l.id}, this)">
+          <span class="slider"></span>
+        </label>
         <button class="action-btn delete" onclick="deleteLawyer(${l.id})"    title="Delete"><i class="bi bi-trash"></i></button>
       </div>
     </td>
@@ -140,39 +144,67 @@ function openAddModal() {
 
 // ── Open Edit Modal ────────────────────────────────────────────────────
 async function openEditModal(id) {
-  const data = await api.get(`/lawyers/admin/all?per_page=200`);
-  const lawyer = (data.lawyers || []).find(l => l.id === id);
-  if (!lawyer) { showToast('Lawyer not found', 'error'); return; }
-
-  editingId = id;
-  document.getElementById('modal-title').textContent = 'Edit Lawyer';
-
-  const fields = {
-    'field-name':     lawyer.LawyerName,
-    'field-email':    lawyer.LawyerEmail,
-    'field-mobile':   lawyer.LawyerMobileNo,
-    'field-address':  lawyer.OfficeAddress,
-    'field-city':     lawyer.City,
-    'field-state':    lawyer.State,
-    'field-langs':    lawyer.LanguagesKnown,
-    'field-exp':      lawyer.LawyerExp,
-    'field-areas':    lawyer.PracticeAreas,
-    'field-courts':   lawyer.Courts,
-    'field-website':  lawyer.Website,
-    'field-desc':     lawyer.Description,
-    'field-public':   lawyer.IsPublic,
-  };
-  Object.entries(fields).forEach(([id, val]) => {
-    const el = document.getElementById(id);
-    if (el && val !== null && val !== undefined) el.value = val;
-  });
-
-  // Show existing pic
-  if (lawyer.ProfilePic) {
-    showPreviewImage(getLawyerImageUrl(lawyer.ProfilePic));
+  // Clear any existing preview
+  const form = document.getElementById('lawyer-form');
+  if (form) form.reset();
+  
+  const previewWrap = document.getElementById('preview-wrap');
+  if (previewWrap) previewWrap.innerHTML = '';
+  
+  const originalBtn = event?.currentTarget;
+  const originalHtml = originalBtn ? originalBtn.innerHTML : null;
+  
+  if (originalBtn) {
+    originalBtn.disabled = true;
+    originalBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
   }
 
-  new bootstrap.Modal(document.getElementById('lawyer-modal')).show();
+  try {
+    // Fetch specifically this lawyer's details
+    const lawyer = await api.get(`/lawyers/admin/${id}`);
+    
+    editingId = id;
+    document.getElementById('modal-title').textContent = 'Edit Lawyer';
+
+    const fields = {
+      'field-name':     lawyer.LawyerName,
+      'field-email':    lawyer.LawyerEmail,
+      'field-mobile':   lawyer.LawyerMobileNo,
+      'field-address':  lawyer.OfficeAddress,
+      'field-city':     lawyer.City,
+      'field-state':    lawyer.State,
+      'field-langs':    lawyer.LanguagesKnown,
+      'field-exp':      lawyer.LawyerExp,
+      'field-areas':    lawyer.PracticeAreas,
+      'field-courts':   lawyer.Courts,
+      'field-website':  lawyer.Website,
+      'field-desc':     lawyer.Description,
+      'field-public':   lawyer.IsPublic,
+    };
+
+    Object.entries(fields).forEach(([fieldId, val]) => {
+      const el = document.getElementById(fieldId);
+      if (el) {
+        el.value = (val !== null && val !== undefined) ? val : '';
+      }
+    });
+
+    // Show existing pic
+    if (lawyer.ProfilePic) {
+      showPreviewImage(getLawyerImageUrl(lawyer.ProfilePic));
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById('lawyer-modal'));
+    modal.show();
+  } catch (err) {
+    console.error('Error opening edit modal:', err);
+    showToast('Failed to load lawyer details', 'error');
+  } finally {
+    if (originalBtn) {
+      originalBtn.disabled = false;
+      originalBtn.innerHTML = originalHtml;
+    }
+  }
 }
 
 function openViewProfile(id) {
@@ -194,11 +226,12 @@ async function submitLawyerForm(e) {
       await api.putForm(`/lawyers/admin/${editingId}`, formData);
       showToast('Lawyer updated successfully!', 'success');
     } else {
-      await api.postForm('/lawyers/admin', formData);
-      showToast('Lawyer added successfully!', 'success');
+      await api.postForm('/lawyers/admin/draft', formData);
+      showToast('Lawyer added to drafts successfully!', 'success');
     }
     bootstrap.Modal.getInstance(document.getElementById('lawyer-modal')).hide();
     fetchAdminLawyers();
+    fetchDraftLawyers();
   } catch (err) {
     showToast(err.message, 'error');
   } finally {
@@ -208,13 +241,23 @@ async function submitLawyerForm(e) {
 }
 
 // ── Toggle Public ─────────────────────────────────────────────────────────
-async function togglePublic(id) {
+async function togglePublic(id, sliderEl) {
+  const switchWrap = sliderEl.parentElement;
+  switchWrap.classList.add('loading', 'disabled');
+
   try {
-    await api.patch(`/lawyers/admin/${id}/toggle-public`);
-    showToast('Visibility updated!', 'success');
+    const updated = await api.patch(`/lawyers/admin/${id}/toggle-public`);
+    showToast(`Lawyer is now ${updated.IsPublic ? 'Public' : 'Private'}`, 'success');
+    
+    // Refresh the table to update the badges and other dependent UI
+    // We do a full refresh to be safe, but the switch itself is already in the right position
     fetchAdminLawyers();
   } catch (err) {
     showToast(err.message, 'error');
+    // Revert the checkbox state if it failed
+    sliderEl.checked = !sliderEl.checked;
+  } finally {
+    switchWrap.classList.remove('loading', 'disabled');
   }
 }
 
@@ -228,6 +271,91 @@ async function deleteLawyer(id) {
     fetchAdminLawyers();
   } catch (err) {
     showToast(err.message, 'error');
+  }
+}
+
+// ── Drafts Logic ────────────────────────────────────────────────────────
+async function fetchDraftLawyers() {
+  const tbody = document.getElementById('drafts-tbody');
+  const countEl = document.getElementById('draft-count');
+  const commitBtn = document.getElementById('btn-commit-drafts');
+  
+  try {
+    const drafts = await api.get('/lawyers/admin/draft/all');
+    if (countEl) countEl.textContent = drafts.length;
+    if (commitBtn) commitBtn.disabled = drafts.length === 0;
+
+    if (!tbody) return;
+
+    if (!drafts.length) {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted py-5">No drafts found. Add lawyers to see them here.</td></tr>`;
+    } else {
+      tbody.innerHTML = drafts.map((d, i) => draftRow(d, i)).join('');
+    }
+  } catch (err) {
+    if (tbody) tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">${err.message}</td></tr>`;
+  }
+}
+
+function draftRow(d, i) {
+  const imgUrl = getLawyerImageUrl(d.ProfilePic);
+  return `<tr class="animate-in" style="animation-delay:${i * 0.04}s">
+    <td>
+      <div class="d-flex align-items-center gap-3">
+        ${imgUrl
+          ? `<img src="${imgUrl}" class="table-avatar" alt="${d.LawyerName}">`
+          : `<div class="table-avatar-placeholder">${getInitials(d.LawyerName)}</div>`}
+        <div>
+          <div class="fw-semibold">${d.LawyerName}</div>
+          <div class="text-muted" style="font-size:0.78rem">${d.LawyerEmail || '—'}</div>
+        </div>
+      </div>
+    </td>
+    <td>${d.City || '—'}</td>
+    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${d.PracticeAreas || '—'}</td>
+    <td>${d.LawyerExp ? d.LawyerExp + ' yrs' : '—'}</td>
+    <td>${formatDate(d.RegDate)}</td>
+    <td>
+      <div class="d-flex gap-1">
+        <button class="action-btn delete" onclick="deleteDraft(${i})" title="Remove Draft"><i class="bi bi-trash"></i></button>
+      </div>
+    </td>
+  </tr>`;
+}
+
+async function deleteDraft(index) {
+  try {
+    await api.delete(`/lawyers/admin/draft/${index}`);
+    showToast('Draft removed', 'success');
+    fetchDraftLawyers();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+
+async function commitDrafts() {
+  const ok = await confirmAction('Are you sure you want to save all drafts to the database?');
+  if (!ok) return;
+
+  const btn = document.getElementById('btn-commit-drafts');
+  const originalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Saving...';
+
+  try {
+    const res = await api.post('/lawyers/admin/draft/commit');
+    showToast(res.message, 'success');
+    fetchDraftLawyers();
+    fetchAdminLawyers();
+    
+    // Switch to All tab
+    const allTab = document.getElementById('all-tab');
+    if (allTab) allTab.click();
+  } catch (err) {
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
   }
 }
 
@@ -295,3 +423,6 @@ window.openViewProfile = openViewProfile;
 window.togglePublic = togglePublic;
 window.deleteLawyer = deleteLawyer;
 window.removePreview = removePreview;
+window.fetchDraftLawyers = fetchDraftLawyers;
+window.deleteDraft = deleteDraft;
+window.commitDrafts = commitDrafts;

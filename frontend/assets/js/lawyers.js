@@ -1,6 +1,7 @@
 /**
  * LHS — Lawyer Directory Page JavaScript
  * Handles: search, filter, paginated listing
+ * NOTE: Navbar, back-to-top, loader, and reveals are handled by animations.js
  */
 
 let currentPage = 1;
@@ -10,12 +11,9 @@ let filters     = { name: '', city: '', state: '', practice_area: '' };
 let loading     = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  initNavbarScroll();
-  initBackToTop();
   await loadPracticeAreaFilters();
   readUrlParams();
   await fetchLawyers();
-  hideLoader();
   bindFilterEvents();
 });
 
@@ -74,7 +72,7 @@ async function fetchLawyers() {
   const grid = document.getElementById('lawyers-grid');
   const countEl = document.getElementById('result-count');
   grid.innerHTML = `<div class="col-12 text-center py-5">
-    <div class="loader-ring mx-auto" style="border-top-color:#1a3a5c;"></div>
+    <div class="loader-ring mx-auto" style="border-top-color:#333335;"></div>
     <p class="mt-3 text-muted">Searching lawyers...</p>
   </div>`;
 
@@ -91,6 +89,8 @@ async function fetchLawyers() {
 
     if (countEl) countEl.textContent = `${total} lawyer${total !== 1 ? 's' : ''} found`;
 
+    const state = Flip.getState(".lawyer-card-wrap");
+
     if (!lawyers.length) {
       grid.innerHTML = `<div class="col-12 text-center py-5">
         <div style="font-size:3rem;">⚖️</div>
@@ -99,10 +99,19 @@ async function fetchLawyers() {
       </div>`;
     } else {
       grid.innerHTML = lawyers.map((l, i) => createCard(l, i)).join('');
+      
+      Flip.from(state, {
+        duration: 0.6,
+        ease: "power2.inOut",
+        stagger: 0.05,
+        onEnter: elements => gsap.fromTo(elements, {opacity: 0, scale: 0.5}, {opacity: 1, scale: 1, duration: 0.6}),
+        onLeave: elements => gsap.to(elements, {opacity: 0, scale: 0.5, duration: 0.6})
+      });
     }
 
     renderPagination(total, page, pp);
-    initRevealAnimations();
+    if (typeof initScrollReveals === 'function') initScrollReveals();
+    if (typeof refreshScroll === 'function') setTimeout(refreshScroll, 200);
   } catch (err) {
     grid.innerHTML = `<div class="col-12 text-center py-5 text-danger"><p>${err.message}</p></div>`;
   } finally {
@@ -114,25 +123,24 @@ function createCard(lawyer, idx) {
   const imgUrl = getLawyerImageUrl(lawyer.ProfilePic);
   const areas = (lawyer.PracticeAreas || '').split(',').filter(Boolean).slice(0, 3);
   return `
-    <div class="col-lg-4 col-md-6 mb-4 reveal" style="transition-delay: ${idx * 0.06}s">
-      <div class="lawyer-card">
+    <div class="col-lg-3 col-md-6 mb-4 lawyer-card-wrap" data-flip-id="${lawyer.id}">
+      <div class="lawyer-card" style="font-size:0.85rem;">
         <div class="card-img-wrapper">
           ${imgUrl
-            ? `<img src="${imgUrl}" class="card-img-top" alt="${lawyer.LawyerName}" loading="lazy">`
-            : `<div class="card-img-top d-flex align-items-center justify-content-center" style="height:240px;background:linear-gradient(135deg,#1a3a5c,#2563a8);color:#fff;font-size:3.5rem;font-weight:900">${getInitials(lawyer.LawyerName)}</div>`}
+            ? `<img src="${imgUrl}" class="card-img-top" alt="${lawyer.LawyerName}" loading="lazy" style="height:180px;">`
+            : `<div class="card-img-top d-flex align-items-center justify-content-center" style="height:180px;background:linear-gradient(135deg,#333335,#5a5a5c);color:#fff;font-size:2.5rem;font-weight:900">${getInitials(lawyer.LawyerName)}</div>`}
           <div class="card-overlay">
-            <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-sm btn-gold">Full Profile →</a>
+            <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-sm btn-accent" style="font-size:0.75rem;padding:4px 10px;">View →</a>
           </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">${lawyer.LawyerName}</h5>
-          <div class="mb-2">${areas.map(a => `<span class="practice-badge">${a.trim()}</span>`).join('')}</div>
-          <div class="card-meta">
+        <div class="card-body" style="padding:15px;">
+          <h5 class="card-title" style="font-size:0.95rem;">${lawyer.LawyerName}</h5>
+          <div class="mb-2">${areas.map(a => `<span class="practice-badge" style="font-size:0.65rem;padding:2px 8px;">${a.trim()}</span>`).join('')}</div>
+          <div class="card-meta" style="font-size:0.75rem;margin:5px 0 10px;">
             ${lawyer.City ? `<div><i class="bi bi-geo-alt-fill"></i> ${lawyer.City}${lawyer.State ? ', ' + lawyer.State : ''}</div>` : ''}
-            ${lawyer.LawyerExp ? `<div><i class="bi bi-briefcase-fill"></i> ${lawyer.LawyerExp}+ yrs exp</div>` : ''}
-            ${lawyer.LanguagesKnown ? `<div><i class="bi bi-translate"></i> ${lawyer.LanguagesKnown}</div>` : ''}
+            ${lawyer.LawyerExp ? `<div><i class="bi bi-briefcase-fill"></i> ${lawyer.LawyerExp}+ yrs</div>` : ''}
           </div>
-          <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-primary-lhs btn-sm w-100 mt-1">View Profile</a>
+          <a href="lawyer-detail.html?id=${lawyer.id}" class="btn btn-primary-lhs btn-sm w-100 mt-1" style="font-size:0.75rem;padding:6px;">View Profile</a>
         </div>
       </div>
     </div>`;

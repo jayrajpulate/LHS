@@ -1,9 +1,8 @@
 /**
  * LHS — Animation Engine
- * Stack: GSAP, Lenis, Barba.js
+ * Stack: GSAP, Barba.js
  * 
  * This file handles ALL animation infrastructure:
- *  - Smooth scrolling (Lenis)
  *  - Page loader intro
  *  - Scroll-triggered reveals
  *  - Magnetic buttons
@@ -12,7 +11,6 @@
  *  - Navbar scroll effect & back-to-top
  */
 
-let lenis;
 let cursor, follower;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,16 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavbarScrollAnim();
   initBackToTopAnim();
 
-  // 2. Set up smooth scrolling
-  initLenis();
-
-  // 3. Set up custom cursor (desktop only)
+  // 2. Set up custom cursor (desktop only)
   initCustomCursor();
 
-  // 4. Run the intro loader animation, THEN init page content
+  // 3. Run the intro loader animation, THEN init page content
   runIntroLoader();
 
-  // 5. Set up Barba.js for subsequent navigations
+  // 4. Set up Barba.js for subsequent navigations
   initBarba();
 });
 
@@ -106,41 +101,6 @@ function runIntroLoader() {
     }, '-=0.15');
 }
 
-// =====================================================================
-//  SMOOTH SCROLL (Lenis)
-// =====================================================================
-function initLenis() {
-  if (lenis) return;
-
-  lenis = new Lenis({
-    duration: 0.6,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    smoothWheel: true,
-    lerp: 0.1
-  });
-
-  // Synchronize ScrollTrigger with Lenis
-  lenis.on('scroll', ScrollTrigger.update);
-
-  // Single RAF loop via GSAP ticker — no double-pumping
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
-  gsap.ticker.lagSmoothing(0);
-
-  // Ensure ScrollTrigger uses Lenis
-  ScrollTrigger.scrollerProxy(document.body, {
-    scrollTop(value) {
-      if (arguments.length) {
-        lenis.scrollTo(value, { immediate: true });
-      }
-      return lenis.scroll;
-    },
-    getBoundingClientRect() {
-      return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-    }
-  });
-}
 
 // =====================================================================
 //  NAVBAR SCROLL EFFECT
@@ -163,11 +123,7 @@ function initBackToTopAnim() {
     btn.classList.toggle('show', window.scrollY > 400);
   });
   btn.addEventListener('click', () => {
-    if (lenis) {
-      lenis.scrollTo(0);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
@@ -341,7 +297,6 @@ function initBarba() {
       async enter(data) {
         // Scroll to top for new page
         window.scrollTo(0, 0);
-        if (lenis) lenis.scrollTo(0, { immediate: true });
 
         // Hide the loader if the new page has one
         const newLoader = data.next.container.querySelector('#page-loader');
@@ -370,10 +325,9 @@ window.initPageContent = initPageContent;
 
 /**
  * Call this after dynamically loading content that changes page height.
- * Refreshes both Lenis scroll limits and GSAP ScrollTrigger positions.
+ * Refreshes GSAP ScrollTrigger positions.
  */
 function refreshScroll() {
-  if (lenis) lenis.resize();
   ScrollTrigger.refresh();
 }
 window.refreshScroll = refreshScroll;

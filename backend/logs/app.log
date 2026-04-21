@@ -3891,3 +3891,144 @@ lawyers.2.LawyerEmail
 2026-04-21 15:30:40 [INFO] app: Shutting down LHS API...
 2026-04-21 15:30:40 [INFO] uvicorn.error: Application shutdown complete.
 2026-04-21 15:30:40 [INFO] uvicorn.error: Finished server process [29244]
+2026-04-21 15:39:03 [INFO] root: Logging initialized. Level: DEBUG
+2026-04-21 15:39:03 [INFO] root: Logs are being written to: C:\Users\jayra\Desktop\Personal Project\LHS\backend\logs\app.log
+2026-04-21 15:39:03 [INFO] uvicorn.error: Started server process [4660]
+2026-04-21 15:39:03 [INFO] uvicorn.error: Waiting for application startup.
+2026-04-21 15:39:03 [INFO] app: Starting up LHS API...
+2026-04-21 15:39:03 [INFO] app: Upload directory ready: static/uploads
+2026-04-21 15:39:03 [INFO] uvicorn.error: Application startup complete.
+2026-04-21 15:39:08 [DEBUG] passlib.handlers.bcrypt: detected 'bcrypt' backend, version '3.2.2'
+2026-04-21 15:39:08 [DEBUG] passlib.handlers.bcrypt: 'bcrypt' backend lacks $2$ support, enabling workaround
+2026-04-21 15:39:08 [INFO] uvicorn.access: 127.0.0.1:53472 - "POST /api/auth/login HTTP/1.1" 200
+2026-04-21 15:39:08 [INFO] uvicorn.access: 127.0.0.1:53472 - "OPTIONS /api/auth/me HTTP/1.1" 200
+2026-04-21 15:39:08 [INFO] uvicorn.access: 127.0.0.1:53472 - "GET /api/auth/me HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:53472 - "OPTIONS /api/lawyers/admin/all?per_page=1 HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:59913 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:53472 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:59913 - "GET /api/lawyers/admin/all?per_page=1 HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:59913 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:53472 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:53472 - "OPTIONS /api/lawyers/admin/all?per_page=8&page=1 HTTP/1.1" 200
+2026-04-21 15:39:09 [INFO] uvicorn.access: 127.0.0.1:53472 - "GET /api/lawyers/admin/all?per_page=8&page=1 HTTP/1.1" 200
+2026-04-21 15:39:13 [INFO] uvicorn.access: 127.0.0.1:53472 - "OPTIONS /api/lawyers/admin/all?page=1&per_page=15 HTTP/1.1" 200
+2026-04-21 15:39:13 [INFO] uvicorn.access: 127.0.0.1:59913 - "OPTIONS /api/lawyers/admin/draft/all HTTP/1.1" 200
+2026-04-21 15:39:13 [INFO] uvicorn.access: 127.0.0.1:59913 - "GET /api/lawyers/admin/draft/all HTTP/1.1" 200
+2026-04-21 15:39:13 [INFO] uvicorn.access: 127.0.0.1:53472 - "GET /api/lawyers/admin/all?page=1&per_page=15 HTTP/1.1" 200
+2026-04-21 15:55:45 [INFO] uvicorn.error: Shutting down
+2026-04-21 15:55:45 [INFO] uvicorn.error: Waiting for application shutdown.
+2026-04-21 15:55:45 [INFO] app: Shutting down LHS API...
+2026-04-21 15:55:45 [INFO] uvicorn.error: Application shutdown complete.
+2026-04-21 15:55:45 [INFO] uvicorn.error: Finished server process [4660]
+2026-04-21 15:55:50 [INFO] root: Logging initialized. Level: DEBUG
+2026-04-21 15:55:50 [INFO] root: Logs are being written to: C:\Users\jayra\Desktop\Personal Project\LHS\backend\logs\app.log
+2026-04-21 15:55:50 [INFO] uvicorn.error: Started server process [21872]
+2026-04-21 15:55:50 [INFO] uvicorn.error: Waiting for application startup.
+2026-04-21 15:55:50 [INFO] app: Starting up LHS API...
+2026-04-21 15:55:50 [INFO] app: Upload directory ready: static/uploads
+2026-04-21 15:55:50 [INFO] uvicorn.error: Application startup complete.
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:51723 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:56568 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:56568 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:51723 - "GET /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:51723 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:56568 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:56568 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:06:00 [INFO] uvicorn.access: 127.0.0.1:51723 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:62605 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:61446 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:61446 - "GET /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:62605 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:62605 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:61446 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:61446 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:14 [INFO] uvicorn.access: 127.0.0.1:62605 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:62605 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:61446 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:61446 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:62605 - "GET /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:62605 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:61446 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:61446 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:15 [INFO] uvicorn.access: 127.0.0.1:62605 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:21:37 [INFO] uvicorn.access: 127.0.0.1:63716 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:48 [INFO] uvicorn.access: 127.0.0.1:54368 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:48 [INFO] uvicorn.access: 127.0.0.1:54368 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:21:48 [INFO] uvicorn.access: 127.0.0.1:54368 - "OPTIONS /api/lawyers/?page=1&per_page=12 HTTP/1.1" 200
+2026-04-21 16:21:48 [INFO] uvicorn.access: 127.0.0.1:54368 - "GET /api/lawyers/?page=1&per_page=12 HTTP/1.1" 200
+2026-04-21 16:23:11 [DEBUG] passlib.handlers.bcrypt: detected 'bcrypt' backend, version '3.2.2'
+2026-04-21 16:23:11 [DEBUG] passlib.handlers.bcrypt: 'bcrypt' backend lacks $2$ support, enabling workaround
+2026-04-21 16:23:11 [INFO] uvicorn.access: 127.0.0.1:52853 - "POST /api/auth/login HTTP/1.1" 200
+2026-04-21 16:23:11 [INFO] uvicorn.access: 127.0.0.1:52853 - "OPTIONS /api/auth/me HTTP/1.1" 200
+2026-04-21 16:23:11 [INFO] uvicorn.access: 127.0.0.1:52853 - "GET /api/auth/me HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "OPTIONS /api/lawyers/admin/all?per_page=1 HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:55774 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:55774 - "GET /api/lawyers/admin/all?per_page=1 HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "OPTIONS /api/lawyers/admin/all?per_page=8&page=1 HTTP/1.1" 200
+2026-04-21 16:23:12 [INFO] uvicorn.access: 127.0.0.1:52853 - "GET /api/lawyers/admin/all?per_page=8&page=1 HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:52846 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:57929 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:52846 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:57929 - "GET /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:57929 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:52846 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:52846 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:23:25 [INFO] uvicorn.access: 127.0.0.1:57929 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:25:03 [INFO] uvicorn.error: Shutting down
+2026-04-21 16:25:03 [INFO] uvicorn.error: Waiting for application shutdown.
+2026-04-21 16:25:03 [INFO] app: Shutting down LHS API...
+2026-04-21 16:25:03 [INFO] uvicorn.error: Application shutdown complete.
+2026-04-21 16:25:03 [INFO] uvicorn.error: Finished server process [21872]
+2026-04-21 16:25:07 [INFO] root: Logging initialized. Level: DEBUG
+2026-04-21 16:25:07 [INFO] root: Logs are being written to: C:\Users\jayra\Desktop\Personal Project\LHS\backend\logs\app.log
+2026-04-21 16:25:08 [INFO] uvicorn.error: Started server process [17436]
+2026-04-21 16:25:08 [INFO] uvicorn.error: Waiting for application startup.
+2026-04-21 16:25:08 [INFO] app: Starting up LHS API...
+2026-04-21 16:25:08 [INFO] app: Upload directory ready: static/uploads
+2026-04-21 16:25:08 [INFO] uvicorn.error: Application startup complete.
+2026-04-21 16:25:48 [INFO] uvicorn.error: Shutting down
+2026-04-21 16:25:48 [INFO] uvicorn.error: Waiting for application shutdown.
+2026-04-21 16:25:48 [INFO] app: Shutting down LHS API...
+2026-04-21 16:25:48 [INFO] uvicorn.error: Application shutdown complete.
+2026-04-21 16:25:48 [INFO] uvicorn.error: Finished server process [17436]
+2026-04-21 16:38:39 [INFO] root: Logging initialized. Level: DEBUG
+2026-04-21 16:38:39 [INFO] root: Logs are being written to: C:\Users\jayra\Desktop\Personal Project\LHS\backend\logs\app.log
+2026-04-21 16:38:39 [INFO] uvicorn.error: Started server process [8140]
+2026-04-21 16:38:39 [INFO] uvicorn.error: Waiting for application startup.
+2026-04-21 16:38:39 [INFO] app: Starting up LHS API...
+2026-04-21 16:38:39 [INFO] app: Upload directory ready: static/uploads
+2026-04-21 16:38:39 [INFO] uvicorn.error: Application startup complete.
+2026-04-21 16:38:41 [INFO] uvicorn.access: 127.0.0.1:57410 - "GET / HTTP/1.1" 200
+2026-04-21 16:38:41 [INFO] uvicorn.access: 127.0.0.1:57410 - "GET /favicon.ico HTTP/1.1" 404
+2026-04-21 16:38:54 [INFO] uvicorn.access: 127.0.0.1:57095 - "GET /docs HTTP/1.1" 200
+2026-04-21 16:38:55 [INFO] uvicorn.access: 127.0.0.1:57095 - "GET /openapi.json HTTP/1.1" 200
+2026-04-21 16:44:54 [INFO] uvicorn.access: 127.0.0.1:62902 - "GET /api/lawyers/?page=1&per_page=12 HTTP/1.1" 200
+2026-04-21 16:52:21 [INFO] uvicorn.access: 127.0.0.1:63434 - "GET /api/lawyers/admin/1 HTTP/1.1" 401
+2026-04-21 16:52:25 [INFO] uvicorn.access: 127.0.0.1:63434 - "GET /api/lawyers/admin/1 HTTP/1.1" 401
+2026-04-21 16:53:37 [INFO] uvicorn.error: Shutting down
+2026-04-21 16:53:37 [INFO] uvicorn.error: Waiting for application shutdown.
+2026-04-21 16:53:37 [INFO] app: Shutting down LHS API...
+2026-04-21 16:53:37 [INFO] uvicorn.error: Application shutdown complete.
+2026-04-21 16:53:37 [INFO] uvicorn.error: Finished server process [8140]
+2026-04-21 16:58:20 [INFO] root: Logging initialized. Level: DEBUG
+2026-04-21 16:58:20 [INFO] root: Logs are being written to: C:\Users\jayra\Desktop\Personal Project\LHS\backend\logs\app.log
+2026-04-21 16:58:20 [INFO] uvicorn.error: Started server process [21436]
+2026-04-21 16:58:20 [INFO] uvicorn.error: Waiting for application startup.
+2026-04-21 16:58:20 [INFO] app: Starting up LHS API...
+2026-04-21 16:58:20 [INFO] app: Upload directory ready: static/uploads
+2026-04-21 16:58:20 [INFO] uvicorn.error: Application startup complete.
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:52321 - "OPTIONS /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:53643 - "OPTIONS /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:53643 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:52321 - "GET /api/pages/aboutus HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:52321 - "OPTIONS /api/lawyers/?per_page=1 HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:53643 - "GET /api/practice-areas/ HTTP/1.1" 200
+2026-04-21 16:58:55 [INFO] uvicorn.access: 127.0.0.1:52321 - "GET /api/lawyers/?per_page=1 HTTP/1.1" 200

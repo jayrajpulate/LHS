@@ -24,6 +24,10 @@ wheels/
 backend/static/uploads/*
 !backend/static/uploads/.gitkeep
 
+# Logs 
+**/logs/*.log
+*.log
+
 # ── Alembic ──────────────────────────────────────────────────────────
 # Keep alembic versions tracked
 # alembic/versions/

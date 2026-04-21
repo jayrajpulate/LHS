@@ -109,6 +109,63 @@ img { max-width: 100%; height: auto; }
   box-shadow: 0 8px 20px rgba(189, 140, 125, 0.2);
 }
 
+/* Navbar Toggler Premium Style */
+.lhs-navbar .navbar-toggler {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lhs-navbar .navbar-toggler-icon {
+  background-image: none;
+  width: 24px;
+  height: 2px;
+  background-color: var(--primary);
+  display: block;
+  position: relative;
+  transition: var(--transition);
+}
+.lhs-navbar .navbar-toggler-icon::before,
+.lhs-navbar .navbar-toggler-icon::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  background-color: var(--primary);
+  left: 0;
+  transition: var(--transition);
+}
+.lhs-navbar .navbar-toggler-icon::before { top: -8px; }
+.lhs-navbar .navbar-toggler-icon::after { bottom: -8px; }
+
+.lhs-navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon { background-color: transparent; }
+.lhs-navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before { top: 0; transform: rotate(45deg); }
+.lhs-navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after { bottom: 0; transform: rotate(-45deg); }
+
+@media (max-width: 991px) {
+  .lhs-navbar .navbar-collapse {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: var(--white);
+    padding: 100px 30px 40px;
+    transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+  }
+  .lhs-navbar .navbar-collapse.show { right: 0; }
+  .lhs-navbar .navbar-nav { margin-bottom: 30px; }
+  .lhs-navbar .nav-link { font-size: 1.1rem; padding: 12px 0 !important; border-bottom: 1px solid var(--gray-200); border-radius: 0; }
+  .lhs-navbar .btn-nav { text-align: center; width: 100%; margin-top: auto; }
+}
+
 /* ── Hero Section ────────────────────────────────────────────────── */
 .hero {
   min-height: 100vh;
@@ -596,15 +653,53 @@ img { max-width: 100%; height: auto; }
    These classes are kept as no-op markers for the JS to query.
    Do NOT set opacity:0 here — it conflicts with GSAP inline styles. */
 
+.lhs-footer h6 {
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .lhs-footer { padding: 40px 0 20px; text-align: center; }
+  .lhs-footer .brand { margin-bottom: 20px; }
+  .lhs-footer p { margin: 0 auto 24px; }
+  .lhs-footer .col-6 { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; margin-bottom: 20px !important; }
+  .lhs-footer .col-md-3 { width: 100%; }
+  .lhs-footer a { margin-bottom: 12px; }
+  .lhs-footer .footer-bottom { flex-direction: column; gap: 15px; margin-top: 20px; }
+}
+
 /* ── Responsive Tweaks ───────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hero { min-height: 100svh; }
-  .hero h1 { font-size: 2rem; }
-  .hero-stats { gap: 24px; flex-wrap: wrap; }
-  .stat-card { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .section-pad { padding: 60px 0; }
+  .hero { min-height: 100svh; padding-top: 80px; padding-bottom: 40px; }
+  .hero h1 { font-size: clamp(2.2rem, 8vw, 3rem); line-height: 1.2; }
+  .hero p.lead { font-size: 1.05rem; margin-bottom: 30px; }
+  .hero-stats { gap: 15px; margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-stat h3 { font-size: 1.8rem; }
+  .hero-stat p { font-size: 0.8rem; }
+  
+  .stat-card { border-right: none; border-bottom: 1px solid var(--gray-200); padding: 30px 15px; }
   .stat-card:last-child { border-bottom: none; }
-  .search-hero { flex-direction: column; padding: 16px; }
-  .search-hero input { width: 100%; }
+  .stat-card .number { font-size: 2.8rem; }
+
+  .search-hero { 
+    flex-direction: column; 
+    padding: 12px; 
+    gap: 12px;
+    width: 100%;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .search-hero input { 
+    width: 100%; 
+    padding: 12px 0 12px 40px;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .search-hero .btn-accent { width: 100%; padding: 14px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 2rem; }
+  .hero-badge { font-size: 0.75rem; padding: 6px 16px; }
 }
 
 /* ── Filter Bar (Horizontal & Sticky) ─────────────────────────── */
